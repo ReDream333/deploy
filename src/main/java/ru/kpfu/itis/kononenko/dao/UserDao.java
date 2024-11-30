@@ -35,12 +35,12 @@ public class UserDao extends AbstractDao<User> {
     private static final String SQL_FIND_BY_LOGIN = """
             SELECT *
             FROM users
-            WHERE login = ?
+            WHERE username = ?
         """;
     private static final String SQL_DELETE_BY_LOGIN = """
             SELECT *
             FROM users
-            WHERE login = ?
+            WHERE username = ?
         """;
 
     public UserDao(RowMapper<User> mapper) {

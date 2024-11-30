@@ -13,6 +13,7 @@ import ru.kpfu.itis.kononenko.service.UserService;
 import ru.kpfu.itis.kononenko.util.Configuration;
 
 import java.io.IOException;
+import java.sql.Timestamp;
 
 
 @WebServlet("/RegisterServlet")
@@ -23,10 +24,11 @@ public class RegisterServlet extends HttpServlet {
         String login = request.getParameter("login");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
+        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
         UserService userService = new UserService();
 
-        if (userService.register(login, email, password)) {
+        if (userService.register(login, email, password, timestamp)) {
             // Создание сессии для пользователя
             HttpSession session = request.getSession();
             session.setAttribute("login", login); // Сохраняем имя пользователя в сессии
