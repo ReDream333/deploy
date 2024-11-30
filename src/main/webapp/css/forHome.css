@@ -1,0 +1,143 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/*Стили для body*/
+body {
+    font-family: 'Segoe UI',sans-serif;
+    background-color: #f4f7f9;
+    color: #333;
+
+}
+/*Header (хедер, хидер, шапка) – это блок в верхней части страницы сайта, который виден на всех страницах сайта*/
+header {
+    background: linear-gradient(45deg, #4CAF50, #66bb6a);
+    color: #fff;
+    padding: 20px 0 35px 0;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+header h1 {
+    font-size: 2.5em;
+    font-weight: 700;
+}
+
+/* Навигация */
+nav {
+    display: flex;
+    justify-content: center;
+    background-color: #333;
+}
+nav a {
+    color: white;
+    padding: 15px 25px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+nav a:hover {
+    background-color: #4CAF50;
+}
+
+/* Основной контейнер */
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 40px 20px;
+    text-align: center;
+}
+.intro h1 {
+    font-size: 2.2em;
+    color: #333;
+    margin-bottom: 15px;
+}
+.intro p {
+    font-size: 1.2em;
+    color: #666;
+    margin-bottom: 25px;
+}
+.intro button {
+    background-color: #4CAF50;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 20px;
+    font-size: 1em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+.intro button:hover {
+    background-color: #45a049;
+}
+
+
+/*faq*/
+
+.faq-item {
+    position: relative;
+    margin: 20px 0;
+    height: 50px; /* Высота блока */
+    display: flex;
+    align-items: center;
+    padding: 20px;
+
+}
+
+.faq-question {
+    width: 390px;
+    height: 50px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: all 0.9s ease;
+    font-size: 18px;
+    background-color: #6FCF97;
+    color: #333;
+
+    padding: 13px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+
+
+}
+
+.faq-answer {
+    opacity: 0;
+    position: absolute;
+    font-size: 16px;
+    color: #333;
+    white-space: nowrap; /* Не переносить текст */
+    text-align: center;
+
+}
+
+.faq-item.active .faq-question {
+    left: 10%; /* Вопрос съезжает налево */
+    transform: translateX(0);
+}
+
+.faq-item.active .faq-answer {
+    right:5%; /* Ответ появляется справа */
+    opacity: 1;
+}
+
+
+/* Футер */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    margin-top: 50px;
+}
+footer p {
+    font-size: 0.9em;
+    color: #bbb;
+
+}
+
+

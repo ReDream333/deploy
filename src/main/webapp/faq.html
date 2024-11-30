@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Вопросы</title>
+    <link rel="stylesheet" href="css/forHome.css">
+</head>
+
+<body>
+
+<header>
+    <h1>Создай своё генеалогическое древо</h1>
+</header>
+
+<nav>
+    <a href="registration.jsp">Регистрация</a>
+    <a href="sing.jsp">Вход</a>
+</nav>
+
+<div class="container">
+
+    <div class="intro">
+        <h1>Добро пожаловать на сайт для создания генеалогического древа!</h1>
+        <p>Сохраняйте и изучайте историю вашей семьи <br/>
+           Ниже вы можете ознакомиться с часто возникающими вопросами</p>
+    </div>
+
+
+    <div class="faq-item">
+        <p class="faq-question">Как создать генеалогическое древо?</p>
+        <p class="faq-answer">Просто зарегистрируйтесь и начните добавлять своих предков.</p>
+    </div>
+
+    <div class="faq-item">
+        <p class="faq-question">Могу ли я скрыть свое дерево?</p>
+        <p class="faq-answer">Да, вы можете сделать его приватным.</p>
+    </div>
+
+    <div class="faq-item">
+        <p class="faq-question">Что такое публичный доступ?</p>
+        <p class="faq-answer">Это возможность делиться своим деревом с другими.</p>
+    </div>
+    <div class="faq-item">
+        <p class="faq-question">Есть ли мобильное приложение?</p>
+        <p class="faq-answer">Нет, но мы стараемся над этим!</p>
+    </div>
+    <div class="faq-item">
+        <p class="faq-question">Как происходит слияние деревьев?</p>
+        <p class="faq-answer">
+            Вы отправляете запрос автору дерева<br>
+            на подтверждение слияния по общему предку.<br>
+            Если автор согласен, то ваши деревья соединяются!<br>
+            Конечно при условии, что оба дерева в открытом доступе.</p>
+    </div>
+</div>
+
+<script>
+
+    document.querySelectorAll('.faq-item').forEach(item => {
+        const question = item.querySelector('.faq-question');
+
+        question.addEventListener('click', () => {
+            if (item.classList.contains('active')) {
+                // Скрыть, если уже открыт
+                item.classList.remove('active');
+            } else {
+                // Закрыть другие элементы
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                // Открыть текущий элемент
+                item.classList.add('active');
+            }
+        });
+    });
+
+
+</script>
+
+
+
+<footer>
+    <p>&copy; ReDream 2024 Генеалогическое древо </p>
+    <img src="images/logo.png" alt="logo" height = 50 width = 50>
+</footer>
+
+</body>
+
+</html>
