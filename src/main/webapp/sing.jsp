@@ -11,21 +11,21 @@
 
 <div class="registration-container">
     <h2>Вход</h2>
-    <form action="${pageContext.request.contextPath}/SingServlet" method="post">
+    <form action="${pageContext.request.contextPath}/sing" method="post">
+
         <div class="form-group">
 
         <label for="login">Логин</label>
         <input type="text" id="login" name="login" required>
+
         <label for="password">Пароль</label>
         <input type="password" id="password" name="password" required>
         </div>
 
         <button type="submit" class="submit-btn">Войти</button>
-
     </form>
 
-    <!-- Ссылка на страницу регистрации -->
-    <a href="registration.jsp" class="link">Забыли пароль? Зарегистрируйтесь</a>
+    <a href="/register" class="link">Забыли пароль? Зарегистрируйтесь</a>
 </div>
 
 </body>

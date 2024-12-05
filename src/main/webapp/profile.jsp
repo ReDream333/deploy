@@ -117,7 +117,7 @@
         padding: 10px;
         font-size: 1em;
         color: #fff;
-        background-color: #6c 6;
+        background-color: #6c6;
         border: none;
         border-radius: 15px;
         cursor: pointer;
@@ -156,22 +156,25 @@
     <div class="user-info-section">
         <img src="images/user-photo.jpg" alt="Фото пользователя" class="user-photo">
         <div class="user-details">
-            <h2>Имя пользователя</h2>
-            <p>Год рождения: 1990</p>
-            <p class="user-description">Описание пользователя самого себя при желании</p>
-            <p class="user-stats">
-                Количество деревьев: 3<br>
-                Скрытых деревьев: 1<br>
-                Публичных деревьев: 2<br>
-                Дата регистрации: 01.01.2023
-            </p>
-            <button class="edit-profile-button">Изменить профиль</button>
+            <h2>${user.username()}</h2>
+            <p>Аккаунт создан: ${user.createdAt()}</p>
+<%--            <p class="user-description">Описание пользователя самого себя при желании</p>--%>
+<%--            <p class="user-stats">--%>
+<%--                Количество деревьев: 3<br>--%>
+<%--                Скрытых деревьев: 1<br>--%>
+<%--                Публичных деревьев: 2<br>--%>
+<%--                Дата регистрации: 01.01.2023--%>
+<%--            </p>--%>
+            <button class="edit-profile-button" onclick="location.href='/change'">Изменить профиль</button>
         </div>
     </div>
     <button class="button">Просмотреть свои деревья
         <img src="images/search-.png" alt="search" height = 160 width = 160></button>
-    <button class="button">Создать новое дерево
-        <img src="images/create-.png" alt="create" height = 160 width = 160></button></button>
+
+    <form action="/createTree" method="Get">
+    <button type="submit" class="button">Создать новое дерево
+        <img src="images/create-.png" alt="create" height = 160 width = 160></button>
+    </form>
 </div>
 
 

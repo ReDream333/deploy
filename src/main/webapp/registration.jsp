@@ -11,7 +11,7 @@
 
 <div class="registration-container">
     <h2>Регистрация</h2>
-    <form action="${pageContext.request.contextPath}/RegisterServlet" method="POST">
+    <form action="${pageContext.request.contextPath}/register" method="POST">
         <div class="form-group">
             <label for="login">Никнейм</label>
             <input type="text" id="login" name="login" required>
