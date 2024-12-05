@@ -3,10 +3,10 @@ package ru.kpfu.itis.kononenko.entity;
 import java.sql.Timestamp;
 
 public record Tree(
-        int id,
-        int userId,
+        Long id,
+        Long userId,
         String name,
         boolean isPrivate,
-        int mergedTreeId,
+        Long mergedTreeId,
         Timestamp createdAt
 ) {}

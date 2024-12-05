@@ -10,11 +10,11 @@ public class TreeMapper implements RowMapper<Tree> {
     @Override
     public Tree mapRow(ResultSet resultSet) throws SQLException {
         return new Tree(
-                resultSet.getInt("id"),
-                resultSet.getInt("user_id"),
+                resultSet.getLong("id"),
+                resultSet.getLong("user_id"),
                 resultSet.getString("name"),
                 resultSet.getBoolean("is_private"),
-                resultSet.getInt("mergedTreeId"),
+                resultSet.getLong("mergedTreeId"),
                 resultSet.getTimestamp("created_at")
         );
     }
