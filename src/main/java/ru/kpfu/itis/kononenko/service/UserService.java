@@ -7,24 +7,34 @@ import ru.kpfu.itis.kononenko.util.PasswordUtil;
 
 import java.sql.Timestamp;
 
-//TODO сейчас бзе него работаю, вообще не уверена, что этот клас мне нужен
-
 public class UserService {
     private static final UserDao userDao = Configuration.getUserDao();
 
-    public boolean register(String username,String email, String passwordHash, Timestamp createdAt) {
-        return userDao.save(new User(
+    public User register(String username,String email, String passwordHash, Timestamp createdAt) {
+        User user = new User(
                 null,
                 username,
                 email,
                 PasswordUtil.encrypt(passwordHash),
                 createdAt
-        ));
+        );
+        long id = userDao.save(user);
+        return userDao.findById(id);
     }
 
-    public boolean checkSing(String login, String password) {
+    public User checkSign(String login, String password) {
+        //TODO либо имена у всех пользователей одинаковые либо надо findByLogin&&Password
         User userBD = userDao.findByLogin(login);
-        return userBD != null && userBD.passwordHash().equals(PasswordUtil.encrypt(password));
+        if(userBD != null && userBD.passwordHash().equals(PasswordUtil.encrypt(password))){
+            return userBD;
+        }else {
+            return null;
+        }
+    }
+
+    public User changeName(String newName, String tempName) {
+        userDao.updateUser(newName, tempName);
+        return userDao.findByLogin(newName);
     }
 
 
