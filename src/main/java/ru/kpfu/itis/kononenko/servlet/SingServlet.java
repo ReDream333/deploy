@@ -7,16 +7,19 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import ru.kpfu.itis.kononenko.dao.UserDao;
 import ru.kpfu.itis.kononenko.entity.User;
 import ru.kpfu.itis.kononenko.service.UserService;
-import ru.kpfu.itis.kononenko.util.Configuration;
-import ru.kpfu.itis.kononenko.util.PasswordUtil;
 
 import java.io.IOException;
 
-@WebServlet("/SingServlet")
+@WebServlet("/sing")
 public class SingServlet extends HttpServlet {
+
+    @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+        req.getRequestDispatcher("sing.jsp").forward(req, resp);
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String login = request.getParameter("login");
@@ -24,15 +27,13 @@ public class SingServlet extends HttpServlet {
 
         UserService userService = new UserService();
 
-        if (userService.checkSing(login, password)) {
+        User user = userService.checkSign(login, password);
+        if (user!=null) {
             // Создание сессии для пользователя
             HttpSession session = request.getSession();
-            session.setAttribute("login", login); // Сохраняем имя пользователя в сессии
-
-            // Перенаправление на страницу приветствия
+            session.setAttribute("user", user); // Сохраняем имя пользователя в сессии
             response.sendRedirect("profile.jsp");
         } else {
-          //зарегайся, дурак
             response.sendRedirect("registration.jsp");
         }
 
