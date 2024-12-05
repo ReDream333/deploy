@@ -11,9 +11,9 @@ public class ParentChildRelationMapper implements RowMapper<ParentChildRelation>
     @Override
     public ParentChildRelation mapRow(ResultSet resultSet) throws SQLException {
         return new ParentChildRelation(
-                resultSet.getInt("id"),
-                resultSet.getInt("parent_id"),
-                resultSet.getInt("child_id")
+                resultSet.getLong("id"),
+                resultSet.getLong("parent_id"),
+                resultSet.getLong("child_id")
         );
     }
 }

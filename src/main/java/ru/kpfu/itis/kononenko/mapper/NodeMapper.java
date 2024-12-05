@@ -10,8 +10,8 @@ public class NodeMapper implements RowMapper<Node> {
     @Override
     public Node mapRow(ResultSet resultSet) throws SQLException {
         return new Node(
-                resultSet.getInt("id"),
-                resultSet.getInt("tree_id"),
+                resultSet.getLong("id"),
+                resultSet.getLong("tree_id"),
                 resultSet.getString("first_name"),
                 resultSet.getString("last_name"),
                 resultSet.getString("surname"),

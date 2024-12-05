@@ -12,9 +12,9 @@ public class MarriageMapper implements RowMapper<Marriage> {
     @Override
     public Marriage mapRow(ResultSet resultSet) throws SQLException {
         return new Marriage(
-                resultSet.getInt("id"),
-                resultSet.getInt("spouse_male"),
-                resultSet.getInt("spouse_female"),
+                resultSet.getLong("id"),
+                resultSet.getLong("spouse_male"),
+                resultSet.getLong("spouse_female"),
                 //FIXME тут либо так либо resultSet.getDate
                 Date.valueOf(resultSet.getObject("start_date", LocalDate.class)),
                 Date.valueOf(resultSet.getObject("end_date", LocalDate.class))

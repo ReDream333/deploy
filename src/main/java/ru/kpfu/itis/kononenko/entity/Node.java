@@ -3,8 +3,8 @@ package ru.kpfu.itis.kononenko.entity;
 import java.sql.Date;
 
 public record Node(
-        int id,
-        int treeId,
+        Long id,
+        Long treeId,
         String firstName,
         String lastName,
         String surname,
