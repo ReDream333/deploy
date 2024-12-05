@@ -14,7 +14,7 @@ public class UserMapper implements RowMapper<User> {
                 resultSet.getLong("id"),
                 resultSet.getString("username"),
                 resultSet.getString("email"),
-                resultSet.getString("passwordHash"),
+                resultSet.getString("password_hash"),
                 resultSet.getTimestamp("created_at")
         );
     }

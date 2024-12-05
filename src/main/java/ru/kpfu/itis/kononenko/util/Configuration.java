@@ -1,7 +1,13 @@
 package ru.kpfu.itis.kononenko.util;
 
+import ru.kpfu.itis.kononenko.dao.NodeDao;
+import ru.kpfu.itis.kononenko.dao.ParentChildRelationDao;
+import ru.kpfu.itis.kononenko.dao.TreeDao;
 import ru.kpfu.itis.kononenko.dao.UserDao;
 import ru.kpfu.itis.kononenko.exception.ConnectionException;
+import ru.kpfu.itis.kononenko.mapper.NodeMapper;
+import ru.kpfu.itis.kononenko.mapper.ParentChildRelationMapper;
+import ru.kpfu.itis.kononenko.mapper.TreeMapper;
 import ru.kpfu.itis.kononenko.mapper.UserMapper;
 
 
@@ -15,13 +21,24 @@ import java.util.Properties;
 
 public class Configuration {
 
-    public static UserMapper getUserMapper() {
-        return new UserMapper();
+    public static UserDao getUserDao() {
+        return new UserDao(new UserMapper());
     }
 
-    public static UserDao getUserDao() {
-        return new UserDao(getUserMapper());
+    public static TreeDao getTreeDao() {
+        return new TreeDao(new TreeMapper());
     }
+
+    public static NodeDao getNodeDao(){
+        return new NodeDao(new NodeMapper());
+    }
+
+    public static ParentChildRelationDao getParentChildRelationDao(){
+        return new ParentChildRelationDao(new ParentChildRelationMapper());
+    }
+
+
+
 
     private static Connection connection;
 
