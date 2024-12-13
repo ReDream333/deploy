@@ -33,7 +33,7 @@ public class RegisterServlet extends HttpServlet {
 
         User user = userService.register(login, email, password, timestamp);
         // Создание сессии для пользователя
-        HttpSession session = request.getSession();
+        HttpSession session = request.getSession(true);
         session.setAttribute("user", user); // Сохраняем пользователя в сессии
         // Перенаправление на страницу приветствия
         response.sendRedirect("profile.jsp");

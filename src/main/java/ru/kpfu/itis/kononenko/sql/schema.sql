@@ -1,39 +1,14 @@
-drop table if exists usersPrim;
-drop sequence if exists usersPrim_sequence;
+
+drop table if exists relationships;
+drop sequence if exists users_sequence;
 drop table if exists public_views;
 drop table if exists merge_requests;
 drop table if exists parent_child_relations;
+drop table if exists marriages;
+drop table if exists node_photos;
 drop table if exists nodes;
 drop table if exists trees;
 drop table if exists users;
-create sequence usersPrim_sequence
-    start with      100
-    increment by    1
-    cache           5;
-
-create table usersPrim(
-                          id              bigint not null default nextval('usersPrim_sequence'),
-                          login           varchar not null,
-                          email           varchar not null,
-                          password        varchar not null,
-----------------------------------------------------------
-                          constraint artist_id_pk primary key (id),
-                          constraint artist_login_uq unique (login),
-                          constraint artist_login_password_uq unique (login, password),
-                          constraint artist_email_uq unique (email)
-);
-
-comment
-    on table usersPrim is 'Таблица пользователей';
-comment
-    on column usersPrim.id is 'ИД пользователя';
-comment
-    on column usersPrim.login is 'Логин(имя) пользователя';
-comment
-    on column usersPrim.email is 'Емэйл пользователя';
-comment
-    on column usersPrim.password is 'Пароль пользователя в хэшированном виде';
-
 
 
 
@@ -43,13 +18,16 @@ CREATE TABLE users (
                        username VARCHAR NOT NULL,
                        email VARCHAR UNIQUE NOT NULL,
                        password_hash VARCHAR NOT NULL,
-                       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+                       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                       photo VARCHAR
 );
 
 comment on table users is 'Таблица пользователя';
 comment on column users.username is 'Тот же логин - имя пользователя';
 comment on column users.password_hash is 'Пароль в хэшированном виде';
 comment on column users.created_at is 'Дата и время регистрации';
+comment on column users.photo is 'URL фото профиля';
+
 
 -- Таблица деревьев
 CREATE TABLE trees (
@@ -74,7 +52,8 @@ CREATE TABLE nodes (
                        gender CHAR(1) CHECK (gender IN ('M', 'F')), -- M: Male, F: Female
                        birth_date DATE,
                        death_date DATE,
-                       biography TEXT
+                       biography TEXT,
+                       photo VARCHAR
 );
 comment on table nodes is 'Таблица узлов дерева';
 comment on column nodes.first_name is 'Имя';
@@ -84,7 +63,19 @@ comment on column nodes.gender is 'Пол (М - мужчина, Ж - женщи�
 comment on column nodes.birth_date is 'Дата рождения';
 comment on column nodes.death_date is 'Дата смерти (NULL, если человек жив)';
 comment on column nodes.biography is 'Текстовая биография';
+comment on column nodes.photo is 'Главное фото узла';
 
+-- Таблица фотоальбома узла
+CREATE TABLE node_photos (
+                       id SERIAL PRIMARY KEY,
+                       node_id INT NOT NULL REFERENCES nodes(id) ON DELETE CASCADE,
+                       photo_url TEXT,
+                       description TEXT
+);
+comment on table node_photos is 'Таблица фотоальбома узла';
+comment on column node_photos.node_id is 'ИД узла';
+comment on column node_photos.photo_url is 'URL фотографии - ссылка на облако';
+comment on column node_photos.description is 'Описание фотографий';
 
 -- Таблица связей между узлами
 CREATE TABLE parent_child_relations (
@@ -97,35 +88,6 @@ CREATE TABLE parent_child_relations (
 comment on table parent_child_relations is 'Таблица связей родитель-ребенок';
 comment on column parent_child_relations.parent_id is 'ID узла родителя';
 comment on column parent_child_relations.child_id is 'ID узла ребенка';
-
-
---Таблица браков
-CREATE TABLE marriages (
-                           id SERIAL PRIMARY KEY,
-                           spouse_male INT NOT NULL REFERENCES nodes(id) ON DELETE CASCADE,
-                           spouse_female INT NOT NULL REFERENCES nodes(id) ON DELETE CASCADE,
-                           start_date DATE NOT NULL,
-                           end_date DATE
-);
-
-comment on table marriages is 'Таблица браков';
-comment on column marriages.start_date is 'Дата регистрации брака';
-comment on column marriages.end_date is 'Дата расторжения брака';
-
-
-
--- Таблица просмотров публичных деревьев
-CREATE TABLE public_views (
-                              id SERIAL PRIMARY KEY,
-                              tree_id INT NOT NULL REFERENCES trees(id) ON DELETE CASCADE,
-                              viewer_user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-                              viewed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
-comment on table public_views is 'Таблица просмотров публичных деревьев';
-comment on column public_views.viewer_user_id is ' ID пользователя, который просмотрел дерево';
-comment on column public_views.viewed_at is 'Дата и время просмотра';
-
 
 -- Таблица запросов на соединение деревьев
 CREATE TABLE merge_requests (

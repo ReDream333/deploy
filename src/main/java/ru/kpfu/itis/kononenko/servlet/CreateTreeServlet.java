@@ -17,7 +17,6 @@ public class CreateTreeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        // Перенаправляем на страницу выбора характеристик дерева
         request.getRequestDispatcher("tree-form.jsp").forward(request, response);
     }
 

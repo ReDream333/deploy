@@ -14,7 +14,7 @@ public class TreeMapper implements RowMapper<Tree> {
                 resultSet.getLong("user_id"),
                 resultSet.getString("name"),
                 resultSet.getBoolean("is_private"),
-                resultSet.getLong("mergedTreeId"),
+                resultSet.getLong("merged_tree_id"),
                 resultSet.getTimestamp("created_at")
         );
     }

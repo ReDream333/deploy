@@ -22,6 +22,9 @@ public class TreeDao extends AbstractDao<Tree> {
             values (?, ?, ?, ?);
         """;
 
+
+
+
     public TreeDao(RowMapper<Tree> mapper) {
         this.mapper = mapper;
         this.tableName = "trees";
@@ -29,7 +32,7 @@ public class TreeDao extends AbstractDao<Tree> {
 
 
     //все для одного пользователя
-    List<Tree> getAllForOneUser(Long userId) {
+    public List<Tree> getAllForOneUser(Long userId) {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_GET_ALL_FOR_USER);
             statement.setLong(1, userId);
@@ -42,7 +45,7 @@ public class TreeDao extends AbstractDao<Tree> {
             }
             return treesForUser;
         } catch (SQLException e) {
-            throw new RuntimeException("Пустой resultSet?");
+            throw new RuntimeException(e);
         }
     }
 

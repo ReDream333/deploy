@@ -30,6 +30,12 @@ public class UserDao extends AbstractDao<User> {
             WHERE username = ?
         """;
 
+    private static final String SQL_UPDATE_PHOTO = """
+            UPDATE users
+            SET photo = ?
+            WHERE id = ?
+        """;
+
 
 
     public UserDao(RowMapper<User> mapper) {
@@ -92,4 +98,22 @@ public class UserDao extends AbstractDao<User> {
         }
     }
 
+    public void updateUserPhoto(long userId, String photoUrl) {
+        try (
+                PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE_PHOTO)) {
+
+            // Заполняем параметры запроса
+            preparedStatement.setString(1, photoUrl);
+            preparedStatement.setLong(2, userId);
+
+
+            // Выполняем обновление
+            int success = preparedStatement.executeUpdate();
+            if (success == 0) {
+                throw new SQLException("Update failed, no rows affected.");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Failed to update user", e);
+        }
+    }
 }

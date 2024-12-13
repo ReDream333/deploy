@@ -15,38 +15,51 @@ public abstract class AbstractDao <T> {
     protected final Connection connection = Configuration.getConnection();
 
     //language=sql
-    private final String SQL_FIND_BY_ID = """
-            SELECT *
-            FROM %s
-            WHERE id = ?
-        """.formatted(tableName);
-    private final String SQL_GET_ALL = """
-           SELECT *
-           FROM %s;
-        """.formatted(tableName);
-    private final String SQL_DELETE_BY_ID = """
-            DELETE
-            FROM %s
-            WHERE id = ?
-        """.formatted(tableName);
+    private String getSqlFindById() {
+        String SQL_FIND_BY_ID = """
+                    SELECT *
+                    FROM %s
+                    WHERE id = ?
+                """;
+        return SQL_FIND_BY_ID.formatted(tableName);
+    }
+
+    //language=sql
+    private String getSqlGetAll() {
+        String SQL_GET_ALL = """
+                   SELECT *
+                   FROM %s;
+                """;
+        return SQL_GET_ALL.formatted(tableName);
+    }
+
+    //language=sql
+    private String getSqlDeleteById() {
+        String SQL_DELETE_BY_ID = """
+                    DELETE
+                    FROM %s
+                    WHERE id = ?
+                """;
+        return SQL_DELETE_BY_ID.formatted(tableName);
+    }
 
 
     public T findById(Long id){
         try {
-            PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID);
+            PreparedStatement statement = connection.prepareStatement(getSqlFindById());
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             //TODO тут похоже везде нужно проверять на resultSet == null
             return resultSet.next() ? mapper.mapRow(resultSet) : null;
         } catch (SQLException e) {
-            throw new RuntimeException("Не можем найти. С таким ИД нет");
+            throw new RuntimeException(e);
         }
-    };
+    }
 
     public List<T> getAll(){
         try {
             Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(SQL_GET_ALL);
+            ResultSet resultSet = statement.executeQuery(getSqlGetAll());
             List<T> result = new ArrayList<>();
             //TODO тут похоже везде нужно проверять на resultSet == null
             while (resultSet.next()) {
@@ -58,11 +71,11 @@ public abstract class AbstractDao <T> {
         } catch (SQLException e) {
             throw new RuntimeException("Пустой resultSet?");
         }
-    };
+    }
 
     public boolean deleteById(Long id) {
         try {
-            PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_ID);
+            PreparedStatement preparedStatement = connection.prepareStatement(getSqlDeleteById());
             preparedStatement.setLong(1, id);
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
@@ -71,11 +84,4 @@ public abstract class AbstractDao <T> {
     }
 
     public abstract long save(T entity);
-
-//    //TODO может мне и не нужен этот метод,
-//    // елси у меня единственная переменная connection и она protected
-//    // - значит, в других классах просто не будет этого cjnnection создаваться
-//    public Connection getConnection() {
-//        return Configuration.getConnection();
-//    }
 }

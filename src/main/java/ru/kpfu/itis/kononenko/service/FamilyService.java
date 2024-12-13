@@ -23,4 +23,11 @@ public class FamilyService {
             relationDao.save(new ParentChildRelation(null, fatherNodeId, selfId));
         }
     }
+
+    public Node addNewNode(Node newMember, Long childId) {
+        Long newMemberId = nodeDao.save(newMember);
+        relationDao.save(new ParentChildRelation(null, newMemberId, childId));
+        return nodeDao.findById(newMemberId);
+
+    }
 }

@@ -55,7 +55,7 @@ public class AddInitialMembersServlet extends HttpServlet {
             case "father":
                 readNode(req, session, "fatherNode");
                 finalizeNodes(session);
-                resp.sendRedirect("/viewTree?treeId=" + session.getAttribute("treeId"));
+                resp.sendRedirect("/viewTree?treeId=" + session.getAttribute("currentTreeId"));
                 break;
         }
 
@@ -71,11 +71,13 @@ public class AddInitialMembersServlet extends HttpServlet {
         Date birthDate = parseDate(req.getParameter("birthDate"));
         Date deathDate = parseDate(req.getParameter("deathDate"));
         String biography = req.getParameter("biography");
+        //FIXME проверь, пока костылем поставлю null
+        String photo = req.getParameter("photo");
 
         Long treeId = (Long) session.getAttribute("currentTreeId");
 
         // Сохраняем данные ноды в сессии
-        Node node = new Node(null, treeId, firstName, lastName, surname, gender, birthDate, deathDate, biography);
+        Node node = new Node(null, treeId, firstName, lastName, surname, gender, birthDate, deathDate, biography, null);
         session.setAttribute(attributeName, node);
     }
 

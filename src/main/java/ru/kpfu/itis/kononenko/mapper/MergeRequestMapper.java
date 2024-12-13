@@ -12,10 +12,10 @@ public class MergeRequestMapper implements RowMapper<MergeRequest> {
     @Override
     public MergeRequest mapRow(ResultSet resultSet) throws SQLException {
         return new MergeRequest(
-                resultSet.getInt("id"),
-                resultSet.getInt("requester_tree_id"),
-                resultSet.getInt("target_tree_id"),
-                resultSet.getInt("common_ancestor_id"),
+                resultSet.getLong("id"),
+                resultSet.getLong("requester_tree_id"),
+                resultSet.getLong("target_tree_id"),
+                resultSet.getLong("common_ancestor_id"),
                 resultSet.getString("status"),
                 resultSet.getTimestamp("created_at")
         );
