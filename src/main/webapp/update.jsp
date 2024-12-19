@@ -4,21 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Изменение данных пользователя</title>
-    <script src="js/profileSettings.js"></script>
+    <link rel="stylesheet" href="css/profileSettings.css">
 </head>
 
 <body>
-<div>
-    <h1>Что вы желаете поменять</h1>
-    <form>
-        <p>Имя: <span id="currentName">${user.username()}</span></p>
-        <label for="name">Новое имя:</label>
-        <input type="text" id="name" name="newName" placeholder="Введите новое имя">
-        <button type="button" id="button">Изменить имя</button>
+<div class="settings-container">
+    <h1>Настройки профиля</h1>
+
+    <p>Текущий логин: <span id="currentName">${user.username()}</span></p>
+    <form id="updateForm">
+        <label for="newName">Новое имя:</label>
+        <input type="text" id="newName" name="newName" placeholder="Введите новое имя">
+
+        <label for="newPassword">Новый пароль:</label>
+        <input type="password" id="newPassword" name="newPassword" placeholder="Введите новый пароль">
+
+        <button type="button" id="updateButton">Сохранить изменения</button>
     </form>
     <p id="message" style="color: red;"></p>
-
-
 </div>
+
+<!-- Модальное окно подтверждения -->
+<div id="confirmationModal" class="modal">
+    <div class="modal-content">
+        <h2>Подтверждение</h2>
+        <label for="currentNameInput">Текущий логин:</label>
+        <input type="text" id="currentNameInput" placeholder="Введите текущий логин">
+
+        <label for="currentPassword">Текущий пароль:</label>
+        <input type="password" id="currentPassword" placeholder="Введите текущий пароль">
+
+        <button id="confirmButton">Подтвердить</button>
+        <button id="closeModalButton">Отмена</button>
+    </div>
+</div>
+
+<script src="js/profileSettings.js"></script>
 </body>
 </html>

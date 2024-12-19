@@ -34,7 +34,7 @@ public class UserDao extends AbstractDao<User> implements IUserDao {
     private static final String SQL_UPDATE_LOGIN = """
             UPDATE users
             SET username = ?
-            WHERE username = ?
+            WHERE id = ?
         """;
 
     private static final String SQL_UPDATE_PHOTO = """
@@ -42,7 +42,16 @@ public class UserDao extends AbstractDao<User> implements IUserDao {
             SET photo = ?
             WHERE id = ?
         """;
-
+    private static final String SQL_FIND_BY_EMAIL = """
+            SELECT *
+            FROM users
+            WHERE email = ?
+        """;
+    private static final String SQL_UPDATE_PASSWORD = """
+            UPDATE users
+            SET password_hash = ?
+            WHERE id = ?
+        """;;
 
 
     public UserDao(RowMapper<User> mapper) {
@@ -51,11 +60,11 @@ public class UserDao extends AbstractDao<User> implements IUserDao {
     }
 
     @Override
-    public void updateUser(String newName, String tempName) {
+    public void updateUserName(String newName, Long userId) {
         try (
                 PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_LOGIN)) {
             statement.setString(1, newName);
-            statement.setString(2, tempName);
+            statement.setLong(2, userId);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -135,4 +144,25 @@ public class UserDao extends AbstractDao<User> implements IUserDao {
         }
     }
 
+    public User findByEmail(String email) {
+        try {
+            PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_EMAIL);
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            return resultSet.next() ? mapper.mapRow(resultSet) : null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void updateUserPassword(String newPassword, Long userId) {
+        try (
+                PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_PASSWORD)) {
+            statement.setString(1, newPassword);
+            statement.setLong(2, userId);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

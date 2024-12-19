@@ -17,8 +17,8 @@ public class NodeDao extends AbstractDao<Node> implements INodeDao {
 
     private static final String SQL_SAVE = """
             INSERT
-            INTO nodes(tree_id, first_name, last_name, surname, gender, birth_date, death_date, comment, photo)
-            values (?, ?, ?, ?, ?, ?, ?, ?, ?);
+            INTO nodes(tree_id, first_name, last_name, gender, birth_date, death_date, comment, photo)
+            values (?, ?, ?, ?, ?, ?, ?, ?);
         """;
     private static final String SQL_GET_ALL_BY_TREE_ID = """
             SELECT *
@@ -49,12 +49,11 @@ public class NodeDao extends AbstractDao<Node> implements INodeDao {
             preparedStatement.setLong(1, node.treeId());
             preparedStatement.setString(2, node.firstName());
             preparedStatement.setString(3, node.lastName());
-            preparedStatement.setString(4, node.surname());
-            preparedStatement.setString(5, String.valueOf(node.gender()));
-            preparedStatement.setDate(6, node.birthDate());
-            preparedStatement.setDate(7, node.deathDate());
-            preparedStatement.setString(8, node.comment());
-            preparedStatement.setString(9, node.photo());
+            preparedStatement.setString(4, String.valueOf(node.gender()));
+            preparedStatement.setDate(5, node.birthDate());
+            preparedStatement.setDate(6, node.deathDate());
+            preparedStatement.setString(7, node.comment());
+            preparedStatement.setString(8, node.photo());
 
             preparedStatement.executeUpdate();
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();

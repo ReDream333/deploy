@@ -12,6 +12,7 @@
 <div class="registration-container">
     <h2>Регистрация</h2>
     <form action="${pageContext.request.contextPath}/register" method="POST">
+
         <div class="form-group">
             <label for="login">Никнейм</label>
             <input type="text" id="login" name="login" required>
@@ -28,6 +29,8 @@
     </form>
     <a href="sing.jsp" class="link">Уже зарегистрированы?</a>
 </div>
+
+<script src="js/register.js"></script>
 
 </body>
 </html>

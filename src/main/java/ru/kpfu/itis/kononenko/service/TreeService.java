@@ -26,7 +26,6 @@ public class TreeService implements ITreeService {
                 userId,
                 name,
                 isPrivate,
-                null,
                 createdAt
         );
         return treeDao.save(tree);
@@ -71,13 +70,8 @@ public class TreeService implements ITreeService {
 
     @Override
     public boolean checkUserIdForThisTree(Long userId, Long treeId){
-        //получили все деревья для юзера
-        List<Tree> trees = treeDao.getAllForOneUser(userId);
-        for(Tree tree: trees){
-            if(Objects.equals(tree.id(), treeId)) return true;
-        }
-        return false;
-
+        Tree tree = treeDao.findById(treeId);
+        return tree.userId().equals(userId);
     }
 
     @Override
@@ -93,5 +87,9 @@ public class TreeService implements ITreeService {
     @Override
     public List<Tree> getPublicTrees() {
         return treeDao.getPublic();
+    }
+
+    public Tree findById(Long treeId) {
+        return treeDao.findById(treeId);
     }
 }

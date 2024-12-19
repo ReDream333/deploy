@@ -34,7 +34,6 @@ public class AddInitialNodeServlet extends HttpServlet {
 
         String firstName = req.getParameter("firstName");
         String lastName = req.getParameter("lastName");
-        String surname = req.getParameter("surname");
         char gender = req.getParameter("gender").charAt(0);
         Date birthDate = parseDate(req.getParameter("birthDate"));
         Date deathDate = parseDate(req.getParameter("deathDate"));
@@ -42,7 +41,7 @@ public class AddInitialNodeServlet extends HttpServlet {
 
         Long treeId = (Long) session.getAttribute("currentTreeId");
 
-        Node selfNode = new Node(null, treeId, firstName, lastName, surname, gender, birthDate, deathDate, comment, null);
+        Node selfNode = new Node(null, treeId, firstName, lastName, gender, birthDate, deathDate, comment, null);
 
         familyService.addInitialNode(selfNode);
 

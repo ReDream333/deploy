@@ -23,7 +23,6 @@ public class NodeService implements INodeService {
                 null,
                 firstName,
                 lastName,
-                null,
                 'M',
                 birthDate,
                 deathDate,

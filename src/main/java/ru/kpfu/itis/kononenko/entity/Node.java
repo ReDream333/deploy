@@ -9,7 +9,6 @@ public record Node(
         Long treeId,
         String firstName,
         String lastName,
-        String surname,
         char gender,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
         Date birthDate,

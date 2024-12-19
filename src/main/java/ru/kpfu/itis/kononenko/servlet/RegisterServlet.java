@@ -1,6 +1,7 @@
 package ru.kpfu.itis.kononenko.servlet;
 
 
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -17,25 +18,38 @@ import java.sql.Timestamp;
 @WebServlet("/register")
 public class RegisterServlet extends HttpServlet {
 
+    private UserService userService;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        userService = (UserService) config.getServletContext().getAttribute("userService");
+    }
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         req.getRequestDispatcher("registration.jsp").forward(req, resp);
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         String login = request.getParameter("login");
         String email = request.getParameter("email");
         String password = request.getParameter("password");
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
 
-        UserService userService = new UserService();
+        response.setContentType("application/json");
 
-        User user = userService.register(login, email, password, timestamp);
-        HttpSession session = request.getSession(true);
-        session.setAttribute("user", user);
+        try {
+            User user = userService.register(login, email, password, timestamp);
+            HttpSession session = request.getSession(true);
+            session.setAttribute("user", user);
+            response.getWriter().write("{\"success\": true}");
+//            response.sendRedirect("profile.jsp");
 
-        response.sendRedirect("profile.jsp");
+        }catch (IllegalArgumentException e){
+            response.getWriter().write("{\"success\": false, \"errorMessage\": \"" + e.getMessage() + "\"}");
+            request.setAttribute("errorMessage", e.getMessage());
+        }
 
     }
 }

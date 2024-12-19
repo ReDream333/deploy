@@ -20,12 +20,12 @@
             <label for="password">Пароль</label>
             <input type="password" id="password" name="password" required>
         </div>
-        <div id="error-message"></div> <!-- Сообщение об ошибке -->
+        <div id="error-message"></div>
 
         <button type="submit" class="submit-btn">Войти</button>
     </form>
 
-    <a href="${pageContext.request.contextPath}/register" class="link">Забыли пароль? Зарегистрируйтесь</a>
+    <a href="${pageContext.request.contextPath}/register" class="link">Еще не с нами? Зарегистрируйтесь</a>
 </div>
 
 </body>

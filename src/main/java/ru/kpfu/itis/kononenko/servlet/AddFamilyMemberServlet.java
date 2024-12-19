@@ -45,7 +45,6 @@ public class AddFamilyMemberServlet extends HttpServlet {
                 requestData.get("treeId").asLong(),
                 requestData.get("firstName").asText(),
                 requestData.get("lastName").asText(),
-                requestData.has("surname") ? requestData.get("surname").asText() : null,
                 requestData.get("gender").asText().charAt(0),
                 requestData.get("birthDate").isNull() ? null: Date.valueOf(requestData.get("birthDate").asText()),
                 requestData.get("deathDate").isNull() ? null: Date.valueOf(requestData.get("deathDate").asText()),

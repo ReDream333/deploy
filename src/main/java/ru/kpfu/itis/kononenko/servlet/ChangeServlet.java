@@ -1,5 +1,6 @@
 package ru.kpfu.itis.kononenko.servlet;
 
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,35 +15,48 @@ import java.io.IOException;
 @WebServlet("/change")
 public class ChangeServlet extends HttpServlet {
 
+    private UserService userService;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        userService = (UserService) config.getServletContext().getAttribute("userService");
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-
-
-        //TODO скорее всего это лишнее
-        User user = (User) session.getAttribute("user");
-        request.setAttribute("user", user);
-
         request.getRequestDispatcher("update.jsp").forward(request, response);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("text/plain"); // Указываем тип ответа как текст
-        resp.setCharacterEncoding("UTF-8");
-
-        String newName = req.getParameter("newName");
-
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
         HttpSession session = req.getSession();
         User user = (User) session.getAttribute("user");
 
-        if (user != null && newName != null && !newName.trim().isEmpty()) {
-            UserService userService = new UserService();
-            User chagedUser = userService.changeName(newName, user.username());
-            session.setAttribute("user", chagedUser);
+        String currentName = req.getParameter("currentName");
+        String currentPassword = req.getParameter("currentPassword");
+        String newName = req.getParameter("newName");
+        String newPassword = req.getParameter("newPassword");
+
+        if (currentName != null && currentPassword != null) {
+
+            if (user.username().equals(currentName) && userService.validatePassword(user, currentPassword)) {
+                resp.getWriter().write("success");
+            } else {
+                resp.getWriter().write("error");
+            }
+        } else if (newName != null || newPassword != null) {
+
+            if (newName != null && !newName.isEmpty()) {
+                User chagedUser = userService.changeName(newName, user.id());
+                session.setAttribute("user", chagedUser);
+            }
+            if (newPassword != null && !newPassword.isEmpty()) {
+                User chagedUser = userService.changePassword(newPassword, user.id());
+                session.setAttribute("user", chagedUser);
+            }
+            session.setAttribute("user", user);
             resp.getWriter().write("success");
-        } else {
-            resp.getWriter().write("Некорректное имя пользователя!");
         }
     }
+
 }

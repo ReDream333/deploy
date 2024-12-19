@@ -14,7 +14,6 @@ public class NodeMapper implements RowMapper<Node> {
                 resultSet.getLong("tree_id"),
                 resultSet.getString("first_name"),
                 resultSet.getString("last_name"),
-                resultSet.getString("surname"),
                 resultSet.getString("gender").charAt(0),
                 //FIXME либо так Date.valueOf(resultSet.getObject("start_date", LocalDate.class)),
                 resultSet.getDate("birth_date"),

@@ -16,6 +16,14 @@ public class UserService {
             LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     public User register(String username,String email, String passwordHash, Timestamp createdAt) {
+        if (isLoginTaken(username)&& isEmailTaken(email)) {
+            throw new IllegalArgumentException("Пользователь c таким именем и почтой уже существует");
+        } else if (isLoginTaken(username)) {
+            throw new IllegalArgumentException("Пользователь с таким именем уже существует");
+        }else if (isEmailTaken(email)) {
+            throw new IllegalArgumentException("Пользователь с такой почтой уже существует");
+        }
+
         User user = new User(
                 null,
                 username,
@@ -26,6 +34,14 @@ public class UserService {
         );
         long id = userDao.save(user);
         return userDao.findById(id);
+    }
+
+    private boolean isEmailTaken(String email) {
+        return userDao.findByEmail(email) != null;
+    }
+
+    private boolean isLoginTaken(String username) {
+        return userDao.findByLogin(username) != null;
     }
 
     public User checkSign(String login, String password) {
@@ -40,9 +56,9 @@ public class UserService {
         }
     }
 
-    public User changeName(String newName, String tempName) {
-        userDao.updateUser(newName, tempName);
-        return userDao.findByLogin(newName);
+    public User changeName(String newName, Long userId) {
+        userDao.updateUserName(newName, userId);
+        return userDao.findById(userId);
     }
 
 
@@ -55,5 +71,14 @@ public class UserService {
 
     public boolean deleteUser(Long id) {
         return userDao.deleteById(id);
+    }
+
+    public boolean validatePassword(User user, String currentPassword) {
+        return user.passwordHash().equals(PasswordUtil.encrypt(currentPassword));
+    }
+
+    public User changePassword(String newPassword, Long userId) {
+        userDao.updateUserPassword(PasswordUtil.encrypt(newPassword), userId);
+        return userDao.findById(userId);
     }
 }

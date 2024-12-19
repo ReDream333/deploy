@@ -7,6 +7,5 @@ public record Tree(
         Long userId,
         String name,
         boolean isPrivate,
-        Long mergedTreeId,
         Timestamp createdAt
 ) {}
