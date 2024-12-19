@@ -51,13 +51,9 @@ public class EditNodeServlet extends HttpServlet {
             String photo = requestData.get("photo") == null ? null : requestData.get("photo").asText().trim();
             LOG.info("photo: {}", photo);
 
-            //TODO если фото меняется, то старое надо удалять или заменять. Вроде где то в документации это есть. Плюс нужно, чтобы сохранялось по нужному пресету в папку
-
-
             Node updatedNode = nodeService.updateNode(id, firstName, lastName, birthDate, deathDate, photo);
             LOG.info("Our Node is: {}", updatedNode);
 
-            // Отправляем обратно обновленные данные
             response.getWriter().write(mapper.writeValueAsString(updatedNode));
 
         } catch (Exception e) {

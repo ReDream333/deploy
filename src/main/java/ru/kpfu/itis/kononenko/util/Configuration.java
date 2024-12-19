@@ -38,11 +38,6 @@ public class Configuration {
         return new NodeBiographyDao(new NodeBiographyMapper());
     }
 
-
-
-
-
-
     private static Connection connection;
 
 

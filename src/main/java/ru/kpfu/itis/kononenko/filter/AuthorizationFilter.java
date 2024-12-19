@@ -40,7 +40,6 @@ public class AuthorizationFilter implements Filter {
         for (String url : protectedUrls) {
             if (requestUri.startsWith(url)) {
                 if (session == null || session.getAttribute("user") == null) {
-                    // Перенаправляем на страницу входа, если пользователь не авторизован
                     httpResponse.sendRedirect("/sing");
                     return;
                 }

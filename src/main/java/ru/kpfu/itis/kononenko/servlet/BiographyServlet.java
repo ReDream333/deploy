@@ -39,14 +39,11 @@ public class BiographyServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        // Получаем данные из формы
         Long nodeId = Long.valueOf(req.getParameter("nodeId"));
         String biography = req.getParameter("biography");
 
-        // Сохраняем биографию в базе данных
         biographyService.saveBiography(nodeId, biography);
 
-        // Перенаправляем обратно на страницу
         resp.sendRedirect("biography?nodeId=" + nodeId);
 
     }

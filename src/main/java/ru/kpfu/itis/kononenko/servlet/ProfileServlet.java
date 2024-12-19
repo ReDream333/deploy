@@ -5,12 +5,8 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import ru.kpfu.itis.kononenko.entity.User;
-import ru.kpfu.itis.kononenko.service.UserService;
 
 import java.io.IOException;
-import java.sql.Timestamp;
 
 
 @WebServlet("/profile")

@@ -24,7 +24,6 @@
     <p id="message" style="color: red;"></p>
 </div>
 
-<!-- Модальное окно подтверждения -->
 <div id="confirmationModal" class="modal">
     <div class="modal-content">
         <h2>Подтверждение</h2>

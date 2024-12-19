@@ -53,7 +53,6 @@ public class SingServlet extends HttpServlet {
 
 
         if (user!=null) {
-            // Создание сессии для пользователя
             HttpSession session = request.getSession();
             session.setAttribute("user", user); // Сохраняем имя пользователя в сессии
             LOG.info("We put user in session is {}", user);

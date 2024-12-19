@@ -44,7 +44,6 @@ public class RegisterServlet extends HttpServlet {
             HttpSession session = request.getSession(true);
             session.setAttribute("user", user);
             response.getWriter().write("{\"success\": true}");
-//            response.sendRedirect("profile.jsp");
 
         }catch (IllegalArgumentException e){
             response.getWriter().write("{\"success\": false, \"errorMessage\": \"" + e.getMessage() + "\"}");

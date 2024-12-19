@@ -14,18 +14,15 @@
 <body>
 
 <div class="user-container">
-    <!-- Фото пользователя слева -->
     <img src="${user.photo() != null && user.photo() != ""? user.photo() : 'images/sunf.jpg'}"
          alt="Фото пользователя" class="user-photo">
 
-    <!-- Основной блок с именем и описанием -->
     <div class="user-info-section">
         <div class="user-details">
             <h2>${user.username()}</h2>
             <p>Дата регистрации: ${user.createdAt()}</p>
         </div>
 
-        <!-- Кнопки для деревьев в столбик -->
         <div class="tree-buttons">
             <button class="button" onclick="location.href='/userTrees'">Просмотреть свои деревья</button>
             <button class="button" onclick="location.href='/publicTrees'">Просмотреть чужие деревья</button>
@@ -38,7 +35,6 @@
         </div>
     </div>
 
-    <!-- Кнопки справа -->
     <div class="user-buttons">
         <button class="edit-profile-button" onclick="location.href='/change'">Изменить профиль</button>
         <button id="upload_widget" class="edit-profile-button">Изменить фото профиля</button>

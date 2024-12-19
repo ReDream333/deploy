@@ -41,7 +41,6 @@ public class TreeDao extends AbstractDao<Tree> implements ITreeDao {
     }
 
 
-    //все для одного пользователя
     public List<Tree> getAllForOneUser(Long userId) {
         try {
             PreparedStatement statement = connection.prepareStatement(SQL_GET_ALL_FOR_USER);

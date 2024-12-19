@@ -15,7 +15,6 @@ public class NodeMapper implements RowMapper<Node> {
                 resultSet.getString("first_name"),
                 resultSet.getString("last_name"),
                 resultSet.getString("gender").charAt(0),
-                //FIXME либо так Date.valueOf(resultSet.getObject("start_date", LocalDate.class)),
                 resultSet.getDate("birth_date"),
                 resultSet.getDate("death_date"),
                 resultSet.getString("comment"),

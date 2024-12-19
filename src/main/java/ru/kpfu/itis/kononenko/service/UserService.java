@@ -62,7 +62,6 @@ public class UserService {
     }
 
 
-//TODO доделать
     public User photoUpload(long userId, String photoUrl) {
         userDao.updateUserPhoto(userId, photoUrl);
         return userDao.findById(userId);

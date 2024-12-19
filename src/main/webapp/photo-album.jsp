@@ -16,7 +16,6 @@
 
 </head>
 <body>
-<!-- Заголовок и кнопка возврата -->
 <header>
     <div class="header-left">
         <h1 id="albumTitle">Фотоальбом</h1>
@@ -34,12 +33,9 @@
 
 
 
-<!-- Контейнер для фотоальбома -->
 <div id="photoAlbum" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
-    <!-- Сюда будут добавляться карточки фото через JS -->
 </div>
 
-<!-- Модальное окно для полноразмерного изображения -->
 <div id="lightbox" class="lightbox" style="display: none;">
     <span id="closeLightbox" class="close">&times;</span>
     <img id="lightboxImage" class="lightbox-content" src="" alt="Full Image">
@@ -50,6 +46,6 @@
     const nodeId = <%= nodeId %>;
 </script>
 
-<script src="js/photoAlbum.js"></script> <!-- Подключаем JS -->
+<script src="js/photoAlbum.js"></script>
 </body>
 </html>

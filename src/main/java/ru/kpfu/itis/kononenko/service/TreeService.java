@@ -12,7 +12,6 @@ import ru.kpfu.itis.kononenko.util.Configuration;
 
 import java.sql.Timestamp;
 import java.util.List;
-import java.util.Objects;
 
 public class TreeService implements ITreeService {
     private static final TreeDao treeDao = Configuration.getTreeDao();
