@@ -38,7 +38,6 @@ public class ChangeServlet extends HttpServlet {
         String newPassword = req.getParameter("newPassword");
 
         if (currentName != null && currentPassword != null) {
-
             if (user.username().equals(currentName) && userService.validatePassword(user, currentPassword)) {
                 resp.getWriter().write("success");
             } else {
@@ -54,7 +53,6 @@ public class ChangeServlet extends HttpServlet {
                 User chagedUser = userService.changePassword(newPassword, user.id());
                 session.setAttribute("user", chagedUser);
             }
-            session.setAttribute("user", user);
             resp.getWriter().write("success");
         }
     }

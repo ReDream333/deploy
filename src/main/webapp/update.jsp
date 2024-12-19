@@ -10,8 +10,6 @@
 <body>
 <div class="settings-container">
     <h1>Настройки профиля</h1>
-
-    <p>Текущий логин: <span id="currentName">${user.username()}</span></p>
     <form id="updateForm">
         <label for="newName">Новое имя:</label>
         <input type="text" id="newName" name="newName" placeholder="Введите новое имя">
@@ -20,6 +18,7 @@
         <input type="password" id="newPassword" name="newPassword" placeholder="Введите новый пароль">
 
         <button type="button" id="updateButton">Сохранить изменения</button>
+        <button class="back-button" onclick="location.href='/profile'">Назад</button>
     </form>
     <p id="message" style="color: red;"></p>
 </div>
