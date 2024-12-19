@@ -24,11 +24,6 @@
         </div>
 
         <div class="form-group">
-            <label for="surname">Отчество:</label>
-            <input type="text" id="surname" name="surname" placeholder="Введите отчество">
-        </div>
-
-        <div class="form-group">
             <label for="gender">Пол:</label>
             <select id="gender" name="gender" required>
                 <option value="M">Мужской</option>
