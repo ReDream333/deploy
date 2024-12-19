@@ -1,5 +1,6 @@
 package ru.kpfu.itis.kononenko.dao;
 
+import ru.kpfu.itis.kononenko.dao.inter.ITreeDao;
 import ru.kpfu.itis.kononenko.entity.Tree;
 import ru.kpfu.itis.kononenko.mapper.inter.RowMapper;
 
@@ -7,7 +8,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TreeDao extends AbstractDao<Tree> {
+public class TreeDao extends AbstractDao<Tree> implements ITreeDao {
 
     //language=sql
     private static final String SQL_GET_ALL_FOR_USER = """
@@ -22,7 +23,16 @@ public class TreeDao extends AbstractDao<Tree> {
             values (?, ?, ?, ?);
         """;
 
-
+    private static final String SQL_DELETE_BY_USER = """
+            DELETE
+            FROM trees
+            WHERE user_id = ?;
+        """;
+    private static final String SQL_PUBLIC = """
+           SELECT *
+           FROM trees
+           WHERE is_private = false;
+        """;
 
 
     public TreeDao(RowMapper<Tree> mapper) {
@@ -70,7 +80,33 @@ public class TreeDao extends AbstractDao<Tree> {
             }
 
         } catch (SQLException e) {
-            throw new RuntimeException("Такое дерево уже есть");
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void deleteByUserId(Long userId) {
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(SQL_DELETE_BY_USER);
+            preparedStatement.setLong(1, userId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Tree> getPublic() {
+        try {
+            PreparedStatement statement = connection.prepareStatement(SQL_PUBLIC);
+            ResultSet resultSet = statement.executeQuery();
+            List<Tree> publicTrees = new ArrayList<>();
+            while (resultSet.next()) {
+                publicTrees.add(
+                        mapper.mapRow(resultSet)
+                );
+            }
+            return publicTrees;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

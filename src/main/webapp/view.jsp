@@ -8,32 +8,29 @@
 <html lang="ru">
 <head>
   <script src="https://unpkg.com/gojs"></script>
-  <style>
-    #myDiagramDiv {
-      width: 100%;
-      height: 500px;
-      border: 1px solid black;
-    }
-  </style>
-  <title>
-    Дерево + имя неплохо было бы отображать
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.2"></script>
+    <title>
+    Диаграмма дерева
   </title>
+    <link rel="stylesheet" href="css/treeDiagram.css">
 </head>
 <body>
 
+<button class="back-button" onclick="location.href='/profile'">Назад</button>
+
 <div id="sample">
-  <div id="myDiagramDiv" style="background-color: white; border: solid 1px black; width: 100%; height: 600px"></div>
+  <div id="myDiagramDiv" ></div>
 </div>
 
 <div id="controls" style="margin-top: 10px;">
   <div>
-    <strong>Выбранный родственник:</strong> <span id="selectedNodeInfo">Нет</span>
+    <span id="selectedNodeInfo"></span>
   </div>
-  <button id="addParentButton" disabled>Добавить родителя</button>
+
 </div>
 
 
-<div id="nodeInfoPanel" style="display: none; position: fixed; right: 0; top: 0; width: 350px; height: 100%; background: #f8f9fa; box-shadow: -2px 0 5px rgba(0,0,0,0.1); padding: 20px; z-index: 1000;">
+<div id="nodeInfoPanel">
   <button id="closePanelButton" style="float: right;">✖</button>
 
   <!-- Фото в кружочке перед именем -->
@@ -46,22 +43,23 @@
   <div id="nodeViewMode">
     <p>Дата рождения: <span id="nodeBirthDate">Неизвестно</span></p>
     <p>Дата смерти: <span id="nodeDeathDate">Неизвестно</span></p>
+
     <button id="editNodeButton">Редактировать</button>
-    <button id="deleteNodeButton" style="display: none; background-color: red; color: white;">Удалить</button>
     <button id="biographyButton">Биография</button>
     <button id="photoAlbumButton">Фото-альбом</button>
+    <button id="addParentButton" disabled>Добавить родителя</button>
+    <button id="deleteNodeButton">Удалить</button>
   </div>
 
   <!-- Режим редактирования -->
-  <div id="nodeEditMode" style="display: none;">
+  <div id="nodeEditMode">
     <label>Фамилия: <input type="text" id="editLastName"></label><br>
     <label>Имя: <input type="text" id="editFirstName"></label><br>
     <label>Дата рождения: <input type="date" id="editBirthDate"></label><br>
     <label>Дата смерти: <input type="date" id="editDeathDate"></label><br>
 
-    <button id="upload_widget" class="cloudinary-button">Загрузить фото</button>
-
-    <button id="saveNodeButton" style="background-color: green; color: white;">Сохранить</button>
+    <button id="upload_widget">Загрузить фото</button>
+    <button id="saveNodeButton">Сохранить</button>
     <button id="cancelEditButton">Отмена</button>
   </div>
 
@@ -71,24 +69,40 @@
 
 </div>
 
-<div id="parentModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
-  <div style="background: white; padding: 20px; border-radius: 8px; width: 300px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-    <h3>Добавить родителя</h3>
-    <label>Имя: <input type="text" id="parentFirstName"></label><br><br>
-    <label>Фамилия: <input type="text" id="parentLastName"></label><br><br>
-    <label>Пол:
-      <select id="parentGender">
-        <option value="M">м</option>
-        <option value="F">ж</option>
-      </select>
-    </label><br><br>
-    <label>Дата рождения: <input type="date" id="parentBirthDate"></label><br><br>
-    <label>Дата смерти: <input type="date" id="parentDeathDate"></label><br><br>
-    <label>Биография: <textarea id="parentBiography"></textarea></label><br><br>
-    <button id="saveParentButton">Сохранить</button>
-    <button id="cancelParentButton">Отмена</button>
-  </div>
+<div id="parentModal">
+    <div>
+        <h3>Добавить родителя</h3>
+        <label>Имя: <input type="text" id="parentFirstName" placeholder="Введите имя"></label>
+        <label>Фамилия: <input type="text" id="parentLastName" placeholder="Введите фамилию"></label>
+        <label>Пол:
+            <select id="parentGender">
+                <option value="M">мужской</option>
+                <option value="F">женский</option>
+            </select>
+        </label>
+        <label>Дата рождения: <input type="date" id="parentBirthDate"></label>
+        <label>Дата смерти: <input type="date" id="parentDeathDate"></label>
+        <label>Биография: <textarea id="parentBiography" rows="3" placeholder="Введите биографию"></textarea></label>
+
+        <label id="errorMessage">
+            Имя, фамилия и пол обязательны для заполнения.
+        </label>
+        <button id="saveParentButton">Сохранить</button>
+        <button id="cancelParentButton">Отмена</button>
+    </div>
 </div>
+
+<div id="congratsModal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h2>🎉 Поздравляем! 🎉</h2>
+        <p>Только что вы добавили самую главную ноду – <b>себя</b>.<br>
+            Следующая ваша задача – взращивать дерево.<br>
+            Добавляйте своих родителей и родственников!
+        </p>
+        <button id="closeModalButton" class="modal-button">Круто!</button>
+    </div>
+</div>
+
 
 
 <script>
@@ -97,6 +111,7 @@
   const treeId = <%= treeId %>;
 </script>
 
+<script src="js/congrats.js"></script>
 <script src="js/treeDiagram.js"></script> <!-- Создаёт диаграмму -->
 <script src="js/nodeInfo.js"></script>    <!-- Добавляет функционал нод -->
 

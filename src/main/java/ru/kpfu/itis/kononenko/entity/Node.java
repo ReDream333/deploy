@@ -15,6 +15,6 @@ public record Node(
         Date birthDate,
         @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
         Date deathDate,
-        String biography,
+        String comment,
         String photo
 ) {}

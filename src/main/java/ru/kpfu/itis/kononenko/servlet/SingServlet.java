@@ -1,6 +1,9 @@
 package ru.kpfu.itis.kononenko.servlet;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -14,13 +17,22 @@ import ru.kpfu.itis.kononenko.service.UserService;
 
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
+import java.util.HashMap;
+import java.util.Map;
 
 @WebServlet("/sing")
 public class SingServlet extends HttpServlet {
     private static final Logger LOG =
             LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private final UserService userService = new UserService();
+    private UserService userService;
+    private ObjectMapper mapper;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        userService = (UserService) config.getServletContext().getAttribute("userService");
+        mapper = (ObjectMapper) config.getServletContext().getAttribute("objectMapper");
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
@@ -29,19 +41,33 @@ public class SingServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+
+        JsonNode requestData = mapper.readTree(request.getReader());
+        String login = requestData.get("login").asText();
+        String password = requestData.get("password").asText();
 
         User user = userService.checkSign(login, password);
+        Map<String, Object> responseData = new HashMap<>();
+
+
         if (user!=null) {
             // Создание сессии для пользователя
             HttpSession session = request.getSession();
-            LOG.info("We put user in session is {}", user);
             session.setAttribute("user", user); // Сохраняем имя пользователя в сессии
-            response.sendRedirect("profile.jsp");
+            LOG.info("We put user in session is {}", user);
+
+            responseData.put("status", "success");
+            responseData.put("redirectUrl", "profile.jsp");
         } else {
-            response.sendRedirect("registration.jsp");
+
+            LOG.warn("Invalid login or password: {} or {}", login, password);
+            responseData.put("status", "error");
+            responseData.put("message", "Неправильный логин или пароль");
         }
+
+        mapper.writeValue(response.getWriter(), responseData);
 
     }
 }

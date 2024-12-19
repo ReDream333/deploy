@@ -7,19 +7,19 @@ import ru.kpfu.itis.kononenko.dao.TreeDao;
 import ru.kpfu.itis.kononenko.entity.Node;
 import ru.kpfu.itis.kononenko.entity.ParentChildRelation;
 import ru.kpfu.itis.kononenko.entity.Tree;
+import ru.kpfu.itis.kononenko.service.inter.ITreeService;
 import ru.kpfu.itis.kononenko.util.Configuration;
 
 import java.sql.Timestamp;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 
-public class TreeService {
+public class TreeService implements ITreeService {
     private static final TreeDao treeDao = Configuration.getTreeDao();
     private static final NodeDao nodeDao = Configuration.getNodeDao();
     private static final ParentChildRelationDao relationDao = Configuration.getParentChildRelationDao();
 
+    @Override
     public long createTree(Long userId, String name, boolean isPrivate, Timestamp createdAt) {
         Tree tree = new Tree(
                 null,
@@ -32,6 +32,7 @@ public class TreeService {
         return treeDao.save(tree);
     }
 
+    @Override
     public JSONArray convertNodesToJson(Long treeId) {
         List<Node> nodes = nodeDao.getNodesByTreeId(treeId);
         JSONArray jsonNodes = new JSONArray();
@@ -44,7 +45,7 @@ public class TreeService {
             jsonNode.put("gender", String.valueOf(node.gender()));
             jsonNode.put("birthday", String.valueOf(node.birthDate()));
             jsonNode.put("death", String.valueOf(node.deathDate()));
-            jsonNode.put("biography", node.biography());
+            jsonNode.put("comment", node.comment());
             jsonNode.put("photo", node.photo());
             jsonNodes.put(jsonNode);
         }
@@ -52,6 +53,7 @@ public class TreeService {
         return jsonNodes;
     }
 
+    @Override
     public JSONArray convertRelationsToJson(Long treeId) {
         List<ParentChildRelation> relations = relationDao.getRelationsByTreeId(treeId);
         JSONArray jsonLinks = new JSONArray();
@@ -67,6 +69,7 @@ public class TreeService {
         return jsonLinks;
     }
 
+    @Override
     public boolean checkUserIdForThisTree(Long userId, Long treeId){
         //получили все деревья для юзера
         List<Tree> trees = treeDao.getAllForOneUser(userId);
@@ -77,4 +80,18 @@ public class TreeService {
 
     }
 
+    @Override
+    public void deleteAllTreeByUser(Long userId) {
+        treeDao.deleteByUserId(userId);
+    }
+
+    @Override
+    public List<Tree> getTreesByUserId(Long userId) {
+        return treeDao.getAllForOneUser(userId);
+    }
+
+    @Override
+    public List<Tree> getPublicTrees() {
+        return treeDao.getPublic();
+    }
 }

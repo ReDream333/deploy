@@ -48,7 +48,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 photos.push(newPhotoIs); // Добавляем фото в массив
                 console.log(photos)
                 renderPhotoAlbum(); // Обновляем галерею
-                alert("Фото успешно добавлено!");
             })
             .catch(error => console.error("Ошибка:", error));
     }
@@ -67,8 +66,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 <img src="${photo.photoUrl}" alt="Фото" class="photo-thumb">
                 <div class="photo-description">
                     <p class="description-text">${photo.description}</p>
-                    <button class="edit-desc-btn">✏️ Изменить</button>
-                    <button class="delete-photo-btn">🗑️ Удалить</button>
+                    <<button class="edit-desc-btn">
+                        <i class="fas fa-edit"></i> Изменить
+                    </button>
+                    <button class="delete-photo-btn">
+                        <i class="fas fa-trash"></i> Удалить
+                    </button>
                 </div>
             `;
 
@@ -102,7 +105,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (!response.ok) throw new Error("Ошибка удаления фото");
                 photos = photos.filter((photo) => photo.id !== photoId); // Удаляем фото из массива
                 renderPhotoAlbum(); // Перерисовываем альбом
-                alert("Фото удалено!");
             })
             .catch((error) => console.error("Ошибка:", error));
     }
@@ -123,7 +125,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     if (!response.ok) throw new Error("Ошибка обновления описания");
                     photo.description = newDescription; // Обновляем описание в массиве
                     renderPhotoAlbum(); // Перерисовываем альбом
-                    alert("Описание обновлено!");
                 })
                 .catch((error) => console.error("Ошибка:", error));
         }

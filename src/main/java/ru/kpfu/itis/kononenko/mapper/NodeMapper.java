@@ -19,7 +19,7 @@ public class NodeMapper implements RowMapper<Node> {
                 //FIXME либо так Date.valueOf(resultSet.getObject("start_date", LocalDate.class)),
                 resultSet.getDate("birth_date"),
                 resultSet.getDate("death_date"),
-                resultSet.getString("biography"),
+                resultSet.getString("comment"),
                 resultSet.getString("photo")
         );
     }

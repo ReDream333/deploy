@@ -1,5 +1,6 @@
 package ru.kpfu.itis.kononenko.dao;
 
+import ru.kpfu.itis.kononenko.dao.inter.INodePhotoDao;
 import ru.kpfu.itis.kononenko.entity.NodePhoto;
 import ru.kpfu.itis.kononenko.mapper.inter.RowMapper;
 
@@ -10,7 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NodePhotoDao extends AbstractDao<NodePhoto>{
+public class NodePhotoDao extends AbstractDao<NodePhoto> implements INodePhotoDao {
 
     //language=sql
 
@@ -28,7 +29,7 @@ public class NodePhotoDao extends AbstractDao<NodePhoto>{
 
     private static final String SQL_UPDATE = """
             UPDATE node_photos
-            SET description= ?
+            SET description = ?
             WHERE id = ?
         """;
 
@@ -57,24 +58,6 @@ public class NodePhotoDao extends AbstractDao<NodePhoto>{
             throw new RuntimeException(e);
         }
     }
-//
-//    public List<String> getAllForOneNode(Long nodeId) {
-//        try {
-//            PreparedStatement statement = connection.prepareStatement(SQL_GET_ALL_FOR_NODE);
-//            statement.setLong(1, nodeId);
-//            ResultSet resultSet = statement.executeQuery();
-//            List<String> photosForNode = new ArrayList<>();
-//            while (resultSet.next()) {
-//                photosForNode.add(
-//                        resultSet.getString("photo_url")
-//                );
-//            }
-//            return photosForNode;
-//        } catch (SQLException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-
 
     public List<NodePhoto> getPhotosForOneNode(Long nodeId) {
         try {
@@ -95,18 +78,15 @@ public class NodePhotoDao extends AbstractDao<NodePhoto>{
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
 
-            // Заполняем параметры запроса
             preparedStatement.setString(1, description);
             preparedStatement.setLong(2, id);
 
-
-            // Выполняем обновление
             int success = preparedStatement.executeUpdate();
             if (success == 0) {
-                throw new SQLException("Update failed, no rows affected.");
+                throw new SQLException();
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to update node", e);
+            throw new RuntimeException(e);
         }
     }
 }

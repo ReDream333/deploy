@@ -2,6 +2,7 @@ package ru.kpfu.itis.kononenko.servlet;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -22,12 +23,18 @@ public class AddFamilyMemberServlet extends HttpServlet {
     private static final Logger LOG =
             LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private final FamilyService familyService = new FamilyService();
+    private FamilyService familyService;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        familyService = (FamilyService) config.getServletContext().getAttribute("familyService");
+    }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("application/json");
-            ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
 
         JsonNode requestData = mapper.readTree(request.getReader());
         LOG.info("our request data: {}", requestData);
@@ -42,7 +49,7 @@ public class AddFamilyMemberServlet extends HttpServlet {
                 requestData.get("gender").asText().charAt(0),
                 requestData.get("birthDate").isNull() ? null: Date.valueOf(requestData.get("birthDate").asText()),
                 requestData.get("deathDate").isNull() ? null: Date.valueOf(requestData.get("deathDate").asText()),
-                requestData.get("biography").isNull() ? null: requestData.get("biography").asText(),
+                requestData.get("comment").isNull() ? null: requestData.get("comment").asText(),
                 requestData.has("photo") ? requestData.get("photo").asText() : null
         );
 

@@ -29,16 +29,13 @@ public class UserService {
     }
 
     public User checkSign(String login, String password) {
-        //TODO либо имена у всех пользователей одинаковые либо надо findByLogin&&Password
+        User userBD = userDao.findByLoginAndPassword(login, PasswordUtil.encrypt(password));
 
-        User userBD = userDao.findByLogin(login);
-
-        if(userBD != null && userBD.passwordHash().equals(PasswordUtil.encrypt(password))){
+        if(userBD != null){
             LOG.info(userBD.toString());
             return userBD;
         }else {
             LOG.info("UserBD is null or password does not match");
-
             return null;
         }
     }
@@ -56,7 +53,7 @@ public class UserService {
     }
 
 
-
-
-
+    public boolean deleteUser(Long id) {
+        return userDao.deleteById(id);
+    }
 }

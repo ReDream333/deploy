@@ -1,5 +1,6 @@
 package ru.kpfu.itis.kononenko.servlet;
 
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -12,7 +13,12 @@ import java.io.IOException;
 @WebServlet("/viewTree")
 public class ViewTreeServlet extends HttpServlet {
 
-    private final TreeService treeService = new TreeService();
+    private TreeService treeService = new TreeService();
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        treeService = (TreeService) config.getServletContext().getAttribute("treeService");
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {

@@ -12,23 +12,27 @@
     <title>Фотоальбом</title>
     <link rel="stylesheet" href="css/photoAlbum.css"> <!-- Подключим CSS -->
     <script src="https://upload-widget.cloudinary.com/latest/global/all.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
 </head>
 <body>
 <!-- Заголовок и кнопка возврата -->
 <header>
-    <h1 id="albumTitle">Фотоальбом</h1>
-    <span id="familyMemberName">
-        <%= nodeName %>
-    </span>
+    <div class="header-left">
+        <h1 id="albumTitle">Фотоальбом</h1>
+        <span id="familyMemberName">
+            <%= nodeName %>
+        </span>
+    </div>
+
     <button id="backButton" onclick="window.history.back()">
         Назад
     </button>
+    <button id="uploadPhotoButton" class="cloudinary-button">Добавить фото</button>
+
 </header>
 
-<!-- Кнопка добавления фото -->
-<div style="text-align: center; margin-bottom: 20px;">
-    <button id="uploadPhotoButton" class="cloudinary-button">Добавить фото</button>
-</div>
+
 
 <!-- Контейнер для фотоальбома -->
 <div id="photoAlbum" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">

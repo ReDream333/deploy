@@ -11,22 +11,36 @@
 
 <div class="registration-container">
     <h2>Вход</h2>
-    <form action="${pageContext.request.contextPath}/sing" method="post">
+    <form id="login-form">
 
         <div class="form-group">
+            <label for="login">Логин</label>
+            <input type="text" id="login" name="login" required>
 
-        <label for="login">Логин</label>
-        <input type="text" id="login" name="login" required>
-
-        <label for="password">Пароль</label>
-        <input type="password" id="password" name="password" required>
+            <label for="password">Пароль</label>
+            <input type="password" id="password" name="password" required>
         </div>
+        <div id="error-message"></div> <!-- Сообщение об ошибке -->
 
         <button type="submit" class="submit-btn">Войти</button>
     </form>
 
-    <a href="/register" class="link">Забыли пароль? Зарегистрируйтесь</a>
+    <a href="${pageContext.request.contextPath}/register" class="link">Забыли пароль? Зарегистрируйтесь</a>
 </div>
 
 </body>
+
+<script>
+    const contextPath = '${pageContext.request.contextPath}';
+</script>
+
+<script src="${pageContext.request.contextPath}/js/sing.js" defer></script>
+
+<style>
+    #error-message {
+        color: red;
+        margin-top: 10px;
+        font-size: 14px;
+    }
+</style>
 </html>

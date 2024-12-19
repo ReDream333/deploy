@@ -16,14 +16,12 @@
 
 <body>
 
-<header>
-    <h1>Создай своё генеалогическое древо</h1>
-</header>
+<jsp:include page="base/header.jsp"/>
 
 <nav>
     <a href="home.jsp">Главная</a>
-    <a href="faq.html">FAQ</a>
-    <a href="sing.jsp">Вход</a>
+    <a href="faq.jsp">FAQ</a>
+    <a href="${pageContext.request.contextPath}/sing">Вход</a>
 </nav>
 
 <div class="container">
@@ -31,14 +29,12 @@
         <h1>Добро пожаловать на сайт для создания генеалогического древа!</h1>
         <p>Здесь вы можете сохранить или узнать историю своей семьи. <br/>
             Кликнув на кнопку ниже, вы сможете пройти регистрацию. Если у вас уже есть аккаунт, перейдите на вкладку "Вход"</p>
+        <jsp:include page="base/tree-steps.jsp"/>
         <button onclick="location.href='/register'">Начать создание древа</button>
     </div>
 </div>
 
-<footer>
-    <p>&copy; ReDream 2024 Генеалогическое древо </p>
-    <img src="images/logo.png" alt="logo" height = 50 width = 50>
-</footer>
+<jsp:include page="base/footer.jsp"/>
 
 </body>
 

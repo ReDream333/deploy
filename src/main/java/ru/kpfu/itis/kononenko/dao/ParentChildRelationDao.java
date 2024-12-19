@@ -1,6 +1,6 @@
 package ru.kpfu.itis.kononenko.dao;
 
-import ru.kpfu.itis.kononenko.entity.Node;
+import ru.kpfu.itis.kononenko.dao.inter.IParentChildRelationDao;
 import ru.kpfu.itis.kononenko.entity.ParentChildRelation;
 import ru.kpfu.itis.kononenko.mapper.inter.RowMapper;
 
@@ -11,15 +11,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ParentChildRelationDao extends AbstractDao<ParentChildRelation>{
+public class ParentChildRelationDao extends AbstractDao<ParentChildRelation> implements IParentChildRelationDao {
 
     //language=sql
-    /*Все дети одного родителя*/
-    private static final String SQL_GET_ALL_FOR_USER = """
-           SELECT *
-           FROM parent_child_relations
-           WHERE parent_id = ?;
-        """;
 
     private static final String SQL_SAVE = """
             INSERT
@@ -40,22 +34,6 @@ public class ParentChildRelationDao extends AbstractDao<ParentChildRelation>{
     }
 
 
-//    List<ParentChildRelation> getAllForOneUser(Long userId) {
-//        try {
-//            PreparedStatement statement = connection.prepareStatement(SQL_GET_ALL_FOR_USER);
-//            statement.setLong(1, userId);
-//            ResultSet resultSet = statement.executeQuery();
-//            List<ParentChildRelation> childrenForUser = new ArrayList<>();
-//            while (resultSet.next()) {
-//                childrenForUser.add(
-//                        mapper.mapRow(resultSet)
-//                );
-//            }
-//            return childrenForUser;
-//        } catch (SQLException e) {
-//            throw new RuntimeException("Пустой resultSet?");
-//        }
-//    }
     @Override
     public long save(ParentChildRelation parentChildRelation) {
         try {
@@ -72,7 +50,7 @@ public class ParentChildRelationDao extends AbstractDao<ParentChildRelation>{
                 throw new SQLException("Не удалось получить сгенерированный ключ.");
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Такая связь родитель->ребенок уже есть");
+            throw new RuntimeException(e);
         }
     }
 

@@ -1,5 +1,6 @@
 package ru.kpfu.itis.kononenko.servlet;
 
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -15,6 +16,13 @@ import java.sql.Timestamp;
 @WebServlet("/createTree")
 public class CreateTreeServlet extends HttpServlet {
 
+    private TreeService treeService;
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        treeService = (TreeService) config.getServletContext().getAttribute("treeService");
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         request.getRequestDispatcher("tree-form.jsp").forward(request, response);
@@ -29,11 +37,10 @@ public class CreateTreeServlet extends HttpServlet {
         boolean isPrivate = Boolean.parseBoolean(request.getParameter("isPrivate"));
         Timestamp createAt = new Timestamp(System.currentTimeMillis());
 
-        TreeService treeService = new TreeService();
         long treeId = treeService.createTree(currentUser.id(), treeName, isPrivate, createAt);
 
         session.setAttribute("currentTreeId", treeId);
-        response.sendRedirect("/addInitialMembers");
+        response.sendRedirect("/addInitialNode");
     }
 }
 

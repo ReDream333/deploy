@@ -18,7 +18,7 @@
 //        HttpSession session = httpRequest.getSession(false);
 //
 //        // URL, которые не требуют авторизации (например, логин, регистрация)
-//        String[] publicUrls = {"/sing", "/register", "/home.jsp", "/faq.html"};
+//        String[] publicUrls = {"/sing", "/register", "/home.jsp", "/faq.jsp"};
 //
 //        String requestUri = httpRequest.getRequestURI();
 //        for (String url : publicUrls) {

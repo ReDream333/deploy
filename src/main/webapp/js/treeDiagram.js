@@ -32,7 +32,7 @@ function init() {
     //получить текст подсказки
     function tooltipTextConverter(person) {
         var str = '';
-        str += 'Биография: ' + person.biography;
+        str += 'Комментарий: ' + person.comment;
         return str;
     }
 
@@ -143,7 +143,14 @@ function init() {
 
     // Функция открытия модального окна
     function openParentModal(childNode) {
+
+
+        errorMessage.style.display = "none";
+        errorMessage.textContent = ""; // Очищаем текст ошибки
+
         parentModal.style.display = "flex"; // Показываем окно
+
+
 
         saveParentButton.onclick = function () {
             const parentFirstName = document.getElementById("parentFirstName").value.trim();
@@ -153,11 +160,43 @@ function init() {
             const parentDeathDate = document.getElementById("parentDeathDate").value;
             const parentBiography = document.getElementById("parentBiography").value.trim();
 
+            const today = new Date().toISOString().split("T")[0]; // Текущая дата в формате YYYY-MM-DD
+
             // Проверка на обязательные поля
             if (!parentFirstName || !parentLastName || !parentGender) {
-                alert("Имя, фамилия и пол обязательны для заполнения.");
+                errorMessage.textContent = "Имя, фамилия и пол обязательны для заполнения.";
+                errorMessage.style.display = "block";
                 return;
             }
+
+            // Валидация даты рождения
+            if (parentBirthDate && parentBirthDate > today) {
+                errorMessage.textContent = "Дата рождения не может быть позже сегодняшнего дня.";
+                errorMessage.style.display = "block";
+                return;
+            }
+            // Валидация даты смерти
+            if (parentDeathDate && parentDeathDate > today) {
+                errorMessage.textContent = "Дата смерти не может быть позже сегодняшнего дня.";
+                errorMessage.style.display = "block";
+                return;
+            }
+
+            // Валидация на то, что дата рождения <= дата смерти
+            if (parentBirthDate && parentDeathDate && parentBirthDate > parentDeathDate) {
+                errorMessage.textContent = "Дата рождения не может быть позже даты смерти.";
+                errorMessage.style.display = "block";
+                return;
+            }
+
+
+            // Валидация на то, что дата между не более 200 лет
+            if (parentBirthDate && parentDeathDate && new Date(parentDeathDate).getFullYear() - new Date(parentBirthDate).getFullYear() > 200 ) {
+                errorMessage.textContent = "Разница между датой рождения и датой смерти не может превышать 200 лет.";
+                errorMessage.style.display = "block";
+                return;
+            }
+            errorMessage.style.display = "none";
 
             // Формируем данные для отправки
             const requestData = {
@@ -167,7 +206,7 @@ function init() {
                 gender: parentGender,
                 birthDate: parentBirthDate || null,
                 deathDate: parentDeathDate || null,
-                biography: parentBiography || null,
+                comment: parentBiography || null,
                 childId: childNode.key
             };
 
@@ -192,7 +231,7 @@ function init() {
                         gender: newParent.gender,
                         birthday: newParent.birthDate || "Неизвестно",
                         death: newParent.deathDate,
-                        biography: newParent.biography
+                        comment: newParent.comment
                     });
 
                     // Добавляем связь между родителем и ребенком
@@ -201,7 +240,6 @@ function init() {
                         to: newParent.id
                     });
 
-                    alert("Родитель " + newParent.firstName +" "+ newParent.lastName + " добавлен успешно.");
                 })
                 .catch((error) => {
                     console.error("Ошибка:", error);

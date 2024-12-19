@@ -1,143 +1,187 @@
+/* Обновлённый стиль для сайта генеалогического древа */
+
+/* Общие стили */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/*Стили для body*/
 body {
-    font-family: 'Segoe UI',sans-serif;
-    background-color: #f4f7f9;
-    color: #333;
 
+    font-family: 'Montserrat', Arial, sans-serif;
+    background: url('/images/background.jpg') no-repeat center center fixed;
+    background-size: cover; /* Заполнить весь экран */
+    color: #2D2D2D;
+    line-height: 1.6;
 }
-/*Header (хедер, хидер, шапка) – это блок в верхней части страницы сайта, который виден на всех страницах сайта*/
+
+/* Хедер */
 header {
-    background: linear-gradient(45deg, #4CAF50, #66bb6a);
+    background: linear-gradient(135deg, #2C473E, #6ABE4E);
     color: #fff;
-    padding: 20px 0 35px 0;
+    padding: 30px 0;
     text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
+
 header h1 {
-    font-size: 2.5em;
-    font-weight: 700;
+    font-size: 2.8em;
+    font-weight: bold;
+    letter-spacing: 1px;
 }
 
 /* Навигация */
 nav {
     display: flex;
     justify-content: center;
-    background-color: #333;
+    background-color: #2C473E; /* Глубокий зелёный оттенок */
+    padding: 10px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
+
 nav a {
-    color: white;
-    padding: 15px 25px;
+    color: #E6F5E1; /* Светло-зелёный текст */
+    padding: 12px 25px;
     text-decoration: none;
-    font-weight: 500;
-    transition: background-color 0.3s ease;
+    font-weight: 600;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 5px;
 }
+
 nav a:hover {
-    background-color: #4CAF50;
+    background-color: #6ABE4E; /* Светлый зелёный при наведении */
+    color: #032820; /* Глубокий тёмно-зелёный для текста */
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+
 
 /* Основной контейнер */
 .container {
+    transform: scale(0.85);
     max-width: 1200px;
-    margin: auto;
-    padding: 40px 20px;
+    margin: 30px auto;
+    padding: 20px;
     text-align: center;
+    background: #F4F7F3;
+    border: 1px solid #DDD;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 .intro h1 {
-    font-size: 2.2em;
-    color: #333;
+    font-size: 2.5em;
+    color: #2D2D2D;;
     margin-bottom: 15px;
 }
+
 .intro p {
     font-size: 1.2em;
-    color: #666;
+    color: #555;
     margin-bottom: 25px;
 }
+
 .intro button {
-    background-color: #4CAF50;
-    color: #fff;
+    background-color: #66b455;
+    color: white;
     border: none;
-    padding: 10px 20px;
-    margin: 20px;
-    font-size: 1em;
-    border-radius: 5px;
+    padding: 12px 20px;
+    font-size: 1.1em;
+    font-weight: bold;
+    border-radius: 8px;
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+
 .intro button:hover {
-    background-color: #45a049;
+    background-color: #2c6341;
+    color: #71d25b;
 }
 
 
-/*faq*/
-
-.faq-item {
-    position: relative;
+/* Стили для блока с картинками */
+.tree-steps {
+    display: flex;
+    justify-content: center; /* Центрирование по горизонтали */
+    align-items: center;
+    gap: 15px; /* Отступы между элементами */
     margin: 20px 0;
-    height: 50px; /* Высота блока */
+}
+
+.step {
     display: flex;
     align-items: center;
-    padding: 20px;
+}
 
+.step-image {
+    width: 150px; /* Размеры картинок */
+    height: 150px;
+    object-fit: cover; /* Обрезка под размер квадрата */
+    border-radius: 15px; /* Закругленные углы */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Легкая тень */
+    border: 2px solid #6ABE4E; /* Зелёная рамка */
+}
+
+.arrow {
+    font-size: 2em;
+    color: #6ABE4E; /* Зелёный цвет для стрелочек */
+    margin: 0 10px; /* Отступы для стрелок */
+}
+
+/* FAQ блок */
+.faq-item {
+    margin: 20px auto;
+    padding: 10px;
+    border-radius: 8px;
+    background: #E6F5E1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Скрываем содержимое */
+    max-height: 60px; /* Высота только для вопроса */
+    transition: max-height 0.5s ease-in-out;
+}
+
+.faq-item.active {
+    max-height: 300px; /* Высота для раскрытого ответа */
 }
 
 .faq-question {
-    width: 390px;
-    height: 50px;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    transition: all 0.9s ease;
-    font-size: 18px;
-    background-color: #6FCF97;
-    color: #333;
-
-    padding: 13px 20px;
-    border-radius: 20px;
-    cursor: pointer;
+    font-size: 1.2em;
     font-weight: bold;
+    color: #2C473E;
+    cursor: pointer;
+    padding: 10px;
+    transition: all 0.3s ease;
+}
 
-
+.faq-question:hover {
+    color: #6ABE4E; /* Зеленый цвет при наведении */
 }
 
 .faq-answer {
-    opacity: 0;
-    position: absolute;
-    font-size: 16px;
+    padding: 10px;
+    font-size: 1em;
     color: #333;
-    white-space: nowrap; /* Не переносить текст */
-    text-align: center;
-
-}
-
-.faq-item.active .faq-question {
-    left: 10%; /* Вопрос съезжает налево */
-    transform: translateX(0);
+    opacity: 0; /* Изначально невидимый */
+    transition: opacity 0.5s ease-in-out;
 }
 
 .faq-item.active .faq-answer {
-    right:5%; /* Ответ появляется справа */
-    opacity: 1;
+    opacity: 1; /* Плавно показываем текст */
 }
-
 
 /* Футер */
 footer {
-    background-color: #333;
-    color: white;
+    background-color: #2C473E;
+    color: #F4F1EA;
     text-align: center;
-    padding: 10px;
-    margin-top: 50px;
-}
-footer p {
+    padding: 15px;
+    margin-top: 20px;
     font-size: 0.9em;
-    color: #bbb;
-
 }
+
+
+
+
 
 

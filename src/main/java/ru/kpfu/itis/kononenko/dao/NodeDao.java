@@ -1,5 +1,6 @@
 package ru.kpfu.itis.kononenko.dao;
 
+import ru.kpfu.itis.kononenko.dao.inter.INodeDao;
 import ru.kpfu.itis.kononenko.entity.Node;
 import ru.kpfu.itis.kononenko.mapper.inter.RowMapper;
 
@@ -10,13 +11,13 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NodeDao extends AbstractDao<Node>{
+public class NodeDao extends AbstractDao<Node> implements INodeDao {
 
     //language=sql
 
     private static final String SQL_SAVE = """
             INSERT
-            INTO nodes(tree_id, first_name, last_name, surname, gender, birth_date, death_date, biography, photo)
+            INTO nodes(tree_id, first_name, last_name, surname, gender, birth_date, death_date, comment, photo)
             values (?, ?, ?, ?, ?, ?, ?, ?, ?);
         """;
     private static final String SQL_GET_ALL_BY_TREE_ID = """
@@ -52,7 +53,7 @@ public class NodeDao extends AbstractDao<Node>{
             preparedStatement.setString(5, String.valueOf(node.gender()));
             preparedStatement.setDate(6, node.birthDate());
             preparedStatement.setDate(7, node.deathDate());
-            preparedStatement.setString(8, node.biography());
+            preparedStatement.setString(8, node.comment());
             preparedStatement.setString(9, node.photo());
 
             preparedStatement.executeUpdate();
@@ -61,10 +62,10 @@ public class NodeDao extends AbstractDao<Node>{
             if (generatedKeys.next()) {
                 return generatedKeys.getLong(1);
             } else {
-                throw new SQLException("Не удалось получить сгенерированный ключ.");
+                throw new SQLException();
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Такая нода уже есть");
+            throw new RuntimeException(e);
         }
     }
 
@@ -103,8 +104,6 @@ public class NodeDao extends AbstractDao<Node>{
     public void update(Node newNode) {
         try (
                 PreparedStatement preparedStatement = connection.prepareStatement(SQL_UPDATE)) {
-
-            // Заполняем параметры запроса
             preparedStatement.setString(1, newNode.firstName()); // имя
             preparedStatement.setString(2, newNode.lastName());  // фамилия
             preparedStatement.setDate(3, newNode.birthDate()); // дата рождения
@@ -112,13 +111,12 @@ public class NodeDao extends AbstractDao<Node>{
             preparedStatement.setString(5, newNode.photo()); // ссылка на фото
             preparedStatement.setLong(6, newNode.id());      // ID ноды, по которой делаем обновление
 
-            // Выполняем обновление
             int success = preparedStatement.executeUpdate();
             if (success == 0) {
-                throw new SQLException("Update failed, no rows affected.");
+                throw new SQLException();
             }
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to update node", e);
+            throw new RuntimeException(e);
         }
     }
 }

@@ -7,7 +7,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractDao <T> {
+public abstract class AbstractDao <T>{
 
     RowMapper<T> mapper;
     String tableName;
@@ -49,7 +49,6 @@ public abstract class AbstractDao <T> {
             PreparedStatement statement = connection.prepareStatement(getSqlFindById());
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
-            //TODO тут похоже везде нужно проверять на resultSet == null
             return resultSet.next() ? mapper.mapRow(resultSet) : null;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -61,7 +60,6 @@ public abstract class AbstractDao <T> {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(getSqlGetAll());
             List<T> result = new ArrayList<>();
-            //TODO тут похоже везде нужно проверять на resultSet == null
             while (resultSet.next()) {
                 result.add(
                         mapper.mapRow(resultSet)
@@ -69,7 +67,7 @@ public abstract class AbstractDao <T> {
             }
             return result;
         } catch (SQLException e) {
-            throw new RuntimeException("Пустой resultSet?");
+            throw new RuntimeException(e);
         }
     }
 
@@ -79,7 +77,7 @@ public abstract class AbstractDao <T> {
             preparedStatement.setLong(1, id);
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
-            throw new RuntimeException("Нечего удалять. Нет с таким ИД");
+            throw new RuntimeException(e);
         }
     }
 

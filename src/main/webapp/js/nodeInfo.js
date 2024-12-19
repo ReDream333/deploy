@@ -74,7 +74,6 @@ function saveNodeData(nodeData) {
 
 
             //Юль, поменяй эти страшные alert и prompt это ваще кошмар
-            alert("Нода успешно обновлена!");
             window.location.reload();
         })
         .catch(error => {
@@ -87,8 +86,8 @@ function saveNodeData(nodeData) {
 function openNodeInfoPanel(nodeData) {
     nodeInfoPanel.style.display = "block";
 
-    // Устанавливаем фото = тут могут быть и другие проверки, пока что не возникало оказий
-    if (typeof nodeData.photo !== "undefined") {
+    // Устанавливаем фото
+    if (typeof nodeData.photo !== "undefined" && nodeData.photo && nodeData.photo !== "null" && nodeData.photo.trim() !== "" ) {
         nodeViewPhoto.src = nodeData.photo;
     } else {
         nodeViewPhoto.src = "images/ava.jpg"; // Дефолтное фото
@@ -130,7 +129,7 @@ function editNode(nodeData) {
 
 
 function deleteNode(nodeKey) {
-    if (!confirm("Вы действительно хотите удалить эту ноду?")) return;
+    if (!confirm("Вы действительно хотите удалить этого родственника?")) return;
 
     fetch(`/editNode?nodeId=${nodeKey}`, { method: "DELETE" })
         .then((response) => {
@@ -151,7 +150,6 @@ function deleteNode(nodeKey) {
             myDiagram.commitTransaction("deleteNode");
 
             nodeInfoPanel.style.display = "none";
-            alert("Нода и её связи успешно удалены!");
         });
 }
 

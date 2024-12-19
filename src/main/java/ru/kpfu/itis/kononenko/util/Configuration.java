@@ -1,7 +1,6 @@
 package ru.kpfu.itis.kononenko.util;
 
 import ru.kpfu.itis.kononenko.dao.*;
-import ru.kpfu.itis.kononenko.exception.ConnectionException;
 import ru.kpfu.itis.kononenko.mapper.*;
 
 
@@ -35,6 +34,12 @@ public class Configuration {
         return new ParentChildRelationDao(new ParentChildRelationMapper());
     }
 
+    public static NodeBiographyDao getNodeBiographyDao(){
+        return new NodeBiographyDao(new NodeBiographyMapper());
+    }
+
+
+
 
 
 
@@ -58,11 +63,8 @@ public class Configuration {
                         properties.getProperty("db.username"),
                         properties.getProperty("db.password")
                 ));
-            } catch (SQLException e) {
-                //прокидываем свою ошибку - в будущем надо еще и на сервере в качестве ответа перенаправить
-                e.printStackTrace();
-            } catch (ClassNotFoundException e) {
-                e.printStackTrace();
+            } catch (SQLException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
             }
         }
 

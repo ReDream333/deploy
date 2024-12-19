@@ -52,7 +52,7 @@ CREATE TABLE nodes (
                        gender CHAR(1) CHECK (gender IN ('M', 'F')), -- M: Male, F: Female
                        birth_date DATE,
                        death_date DATE,
-                       biography TEXT,
+                       comment TEXT,
                        photo VARCHAR
 );
 comment on table nodes is 'Таблица узлов дерева';
@@ -62,7 +62,7 @@ comment on column nodes.surname is 'Отчество';
 comment on column nodes.gender is 'Пол (М - мужчина, Ж - женщина)';
 comment on column nodes.birth_date is 'Дата рождения';
 comment on column nodes.death_date is 'Дата смерти (NULL, если человек жив)';
-comment on column nodes.biography is 'Текстовая биография';
+comment on column nodes.comment is 'Текстовый комментарий';
 comment on column nodes.photo is 'Главное фото узла';
 
 -- Таблица фотоальбома узла
@@ -106,3 +106,14 @@ comment on column merge_requests.target_tree_id is ' ID дерева, к кот�
 comment on column merge_requests.common_ancestor_id  is 'ID узла общего предка';
 comment on column merge_requests.status is 'Статус запроса (pending, approved, rejected)';
 comment on column merge_requests.created_at is 'Дата создания merge_requests.';
+
+-- Таблица биографий
+CREATE TABLE nodes_biography (
+                                        id SERIAL PRIMARY KEY,
+                                        node_id INT NOT NULL UNIQUE REFERENCES nodes(id) ON DELETE CASCADE,
+                                        biography TEXT
+);
+
+comment on table nodes_biography is 'Таблица биографий узлов';
+comment on column nodes_biography.node_id is 'ID узла';
+comment on column nodes_biography.biography is 'Биография';

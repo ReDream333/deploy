@@ -9,4 +9,4 @@ public record User (
         String passwordHash,
         Timestamp createdAt,
         String photo
-) { }
+) {}
