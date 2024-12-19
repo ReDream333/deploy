@@ -4,6 +4,7 @@ import ru.kpfu.itis.kononenko.dao.NodeDao;
 import ru.kpfu.itis.kononenko.dao.NodePhotoDao;
 import ru.kpfu.itis.kononenko.dao.UserDao;
 import ru.kpfu.itis.kononenko.entity.NodePhoto;
+import ru.kpfu.itis.kononenko.service.NodePhotoService;
 import ru.kpfu.itis.kononenko.service.NodeService;
 import ru.kpfu.itis.kononenko.service.TreeService;
 import ru.kpfu.itis.kononenko.service.UserService;
@@ -28,7 +29,8 @@ public class Main {
         System.out.println(np.getPhotosForOneNode(1L));
 
         NodeService nodeService = new NodeService();
-        System.out.println(nodeService.convertPhotosToJson(1L));
+        NodePhotoService nodePhotoService = new NodePhotoService();
+        System.out.println(nodePhotoService.convertPhotosToJson(1L));
 
     }
 }
