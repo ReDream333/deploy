@@ -52,7 +52,7 @@ public class Configuration {
         try {
             properties.load(new FileInputStream("E:\\IDE\\GTreeWithRes\\src\\main\\resources\\db.properties"));
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
         if (connection == null) {
@@ -64,7 +64,7 @@ public class Configuration {
                         properties.getProperty("db.password")
                 ));
             } catch (SQLException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
+                e.printStackTrace();
             }
         }
 
