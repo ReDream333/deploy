@@ -23,14 +23,17 @@ public class Main {
 //        System.out.println(p.getAllForOneNode(1L));
 //        NodeDao n = Configuration.getNodeDao();
 //        System.out.println(n.getNameById(1L));
-        NodePhotoDao np = Configuration.getNodePhotoDao();
+//        NodePhotoDao np = Configuration.getNodePhotoDao();
 //        Long i = np.save(new NodePhoto(null, 1L, "типо путь", "новое фото"));
 //        System.out.println(np.findById(i));
-        System.out.println(np.getPhotosForOneNode(1L));
+//        System.out.println(np.getPhotosForOneNode(1L));
+//
+//        NodeService nodeService = new NodeService();
+//        NodePhotoService nodePhotoService = new NodePhotoService();
+//        System.out.println(nodePhotoService.convertPhotosToJson(1L));
 
-        NodeService nodeService = new NodeService();
-        NodePhotoService nodePhotoService = new NodePhotoService();
-        System.out.println(nodePhotoService.convertPhotosToJson(1L));
+        String db = "db.password";
+        System.out.println(db);
 
     }
 }
