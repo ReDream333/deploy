@@ -42,22 +42,21 @@ public class Configuration {
 
 
     public static Connection getConnection() {
-        Properties properties = new Properties();
-
-        try {
-            properties.load(new FileInputStream("E:\\IDE\\GTreeWithRes\\src\\main\\resources\\db.properties"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String GTREE_DB_HOST = System.getenv("GTREE_DB_HOST");
+        String GTREE_DB_NAME = System.getenv("GTREE_DB_NAME");
+        String GTREE_DB_PASSWORD = System.getenv("GTREE_DB_PASSWORD");
+        String GTREE_DB_PORT = System.getenv("GTREE_DB_PORT");
+        String GTREE_DB_USERNAME = System.getenv("GTREE_DB_USERNAME");
 
         if (connection == null) {
             try {
                 Class.forName("org.postgresql.Driver");
-                connection = (DriverManager.getConnection(
-                        properties.getProperty("db.url"),
-                        properties.getProperty("db.username"),
-                        properties.getProperty("db.password")
-                ));
+                connection = DriverManager.getConnection(
+                        "jdbc:postgresql://%s:%s/%s"
+                                .formatted(GTREE_DB_HOST, GTREE_DB_PORT, GTREE_DB_NAME),
+                        GTREE_DB_USERNAME,
+                        GTREE_DB_PASSWORD
+                );
             } catch (SQLException | ClassNotFoundException e) {
                 e.printStackTrace();
             }
