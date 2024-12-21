@@ -1,5 +1,6 @@
 package ru.kpfu.itis.kononenko.util;
 
+import lombok.extern.slf4j.Slf4j;
 import ru.kpfu.itis.kononenko.dao.*;
 import ru.kpfu.itis.kononenko.mapper.*;
 
@@ -12,6 +13,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 
+@Slf4j
 public class Configuration {
 
     public static UserDao getUserDao() {
@@ -42,22 +44,30 @@ public class Configuration {
 
 
     public static Connection getConnection() {
-        String GTREE_DB_HOST = System.getenv("GTREE_DB_HOST");
-        String GTREE_DB_NAME = System.getenv("GTREE_DB_NAME");
-        String GTREE_DB_PASSWORD = System.getenv("GTREE_DB_PASSWORD");
-        String GTREE_DB_PORT = System.getenv("GTREE_DB_PORT");
-        String GTREE_DB_USERNAME = System.getenv("GTREE_DB_USERNAME");
+        String PGHOST = System.getenv("PGHOST");
+        String POSTGRES_DB = System.getenv("POSTGRES_DB");
+        String PGPASSWORD = System.getenv("PGPASSWORD");
+        String PGPORT = System.getenv("PGPORT");
+        String PGUSER = System.getenv("PGUSER");
 
         if (connection == null) {
             try {
                 Class.forName("org.postgresql.Driver");
                 connection = DriverManager.getConnection(
                         "jdbc:postgresql://%s:%s/%s"
-                                .formatted(GTREE_DB_HOST, GTREE_DB_PORT, GTREE_DB_NAME),
-                        GTREE_DB_USERNAME,
-                        GTREE_DB_PASSWORD
+                                .formatted(PGHOST, PGPORT, POSTGRES_DB),
+                        PGUSER,
+                        PGPASSWORD
                 );
+                log.info("yeeeeees");
             } catch (SQLException | ClassNotFoundException e) {
+                log.info("nooooooooooooooo(");
+                log.error(e.getMessage());
+                log.error(System.getenv("PGHOST"));
+                log.error(System.getenv("POSTGRES_DB"));
+                log.error(System.getenv("PGPASSWORD"));
+                log.error(System.getenv("PGPORT"));
+                log.error(System.getenv("PGUSER"));
                 e.printStackTrace();
             }
         }
