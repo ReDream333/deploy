@@ -11,15 +11,21 @@ import org.flywaydb.core.Flyway;
 @WebListener
 public class FlywayMigrationListener implements ServletContextListener {
 
-    private static final String URL_KEY = "postgresql://postgres:bmVnPtEmWyUFbAVDZXIPagHcCxYjqjJb@autorack.proxy.rlwy.net:24011/railway";
-    private static final String USERNAME_KEY = "postgres";
-    private static final String PASSWORD_KEY = "zmlOdCfhHMUeRkDzzmeOEQNCjRDjMxxC";
+    String PGHOST = System.getenv("PGHOST");
+    String POSTGRES_DB = System.getenv("POSTGRES_DB");
+    String PGPASSWORD = System.getenv("PGPASSWORD");
+    String PGPORT = System.getenv("PGPORT");
+    String PGUSER = System.getenv("PGUSER");
 
     public void contextInitialized(ServletContextEvent sce) {
         try{
+
+            String url = "jdbc:postgresql://%s:%s/%s"
+                    .formatted(PGHOST, PGPORT, POSTGRES_DB);
+
             Flyway flyWay = Flyway
                     .configure()
-                    .dataSource(URL_KEY, USERNAME_KEY, PASSWORD_KEY)
+                    .dataSource(url, PGUSER, PGPASSWORD)
                     .load();
             flyWay.migrate();
             log.info("YES MIGRATION");
