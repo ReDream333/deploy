@@ -11,7 +11,7 @@ import org.flywaydb.core.Flyway;
 @WebListener
 public class FlywayMigrationListener implements ServletContextListener {
 
-    private static final String URL_KEY = "jdbc://postgres:bmVnPtEmWyUFbAVDZXIPagHcCxYjqjJb@postgres.railway.internal:5432/railway";
+    private static final String URL_KEY = "postgresql://postgres:bmVnPtEmWyUFbAVDZXIPagHcCxYjqjJb@postgres.railway.internal:5432/railway";
     private static final String USERNAME_KEY = "postgres";
     private static final String PASSWORD_KEY = "zmlOdCfhHMUeRkDzzmeOEQNCjRDjMxxC";
 
